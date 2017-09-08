@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'YLImagePickerController'
 
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = '选择相册和拍照 支持多种裁剪'
 
   s.description      = <<-DESC
