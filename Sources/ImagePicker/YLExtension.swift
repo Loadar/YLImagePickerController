@@ -11,28 +11,30 @@ import UIKit
 extension UIImage {
     
     class func yl_imageName(_ name: String) -> UIImage? {
+        
         let bundle = Bundle.yl_imagePickerFileBundle()
-        if let imagePath = bundle?.path(forResource: name, ofType: "png"),
-            let image = UIImage.init(contentsOfFile: imagePath) {
+        
+        if let image = UIImage.init(named: name, in: bundle, compatibleWith: nil) {
+            
             return image
         }else {
+            
             return UIImage.init(named: name)
         }
     }
-    
 }
 
 extension Bundle {
     
     class func yl_imagePickerFileBundle() -> Bundle? {
-    
-        let bundle = Bundle.init(for: YLImagePickerController.self)
+        
+        let bundle = Bundle.yl_imagePickerNibBundle()
         
         if  let url = bundle.url(forResource: "YLImagePickerController", withExtension: "bundle"),
             let b = Bundle.init(url: url) {
             return b
         }else {
-            return Bundle.main
+            return bundle
         }
     }
     
