@@ -17,6 +17,12 @@
 
 * 如果您发现使用的功能不够，希望您可以 Issues 我
 
+# 导入
+
+```swift
+pod 'YLImagePickerController', '~> 0.0.4'
+```
+
 # 使用 
 
 ```swift
