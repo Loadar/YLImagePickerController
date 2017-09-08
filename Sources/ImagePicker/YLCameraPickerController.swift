@@ -107,7 +107,7 @@ class YLCameraPickerController: UIViewController {
     func initCameraBtns() {
         
         let closeBtn = UIButton.init(type: UIButtonType.custom)
-        closeBtn.setImage(UIImage.init(named: "cross"), for: UIControlState.normal)
+        closeBtn.setImage(UIImage.yl_imageName("cross"), for: UIControlState.normal)
         closeBtn.addTarget(self, action: #selector(YLCameraPickerController.closeCamera), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(closeBtn)
         closeBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +117,7 @@ class YLCameraPickerController: UIViewController {
         closeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
         
         let takePhotoBtn = UIButton.init(type: UIButtonType.custom)
-        takePhotoBtn.setImage(UIImage.init(named: "round"), for: UIControlState.normal)
+        takePhotoBtn.setImage(UIImage.yl_imageName("round"), for: UIControlState.normal)
         takePhotoBtn.addTarget(self, action: #selector(YLCameraPickerController.takePhoto), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(takePhotoBtn)
         takePhotoBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -127,7 +127,7 @@ class YLCameraPickerController: UIViewController {
         takePhotoBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 100)
         
         let flashChangeBtn = UIButton.init(type: UIButtonType.custom)
-        flashChangeBtn.setImage(UIImage.init(named: "flash-off"), for: UIControlState.normal)
+        flashChangeBtn.setImage(UIImage.yl_imageName("flash-off"), for: UIControlState.normal)
         flashChangeBtn.addTarget(self, action: #selector(YLCameraPickerController.changeFlash(_:)), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(flashChangeBtn)
         flashChangeBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +137,7 @@ class YLCameraPickerController: UIViewController {
         flashChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
         
         let cameraChangeBtn = UIButton.init(type: UIButtonType.custom)
-        cameraChangeBtn.setImage(UIImage.init(named: "camera-front-on"), for: UIControlState.normal)
+        cameraChangeBtn.setImage(UIImage.yl_imageName("camera-front-on"), for: UIControlState.normal)
         cameraChangeBtn.addTarget(self, action: #selector(YLCameraPickerController.changeCamera), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(cameraChangeBtn)
         cameraChangeBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -230,14 +230,14 @@ class YLCameraPickerController: UIViewController {
     
     func changeFlash(_ btn: UIButton) {
         if device?.flashMode == AVCaptureFlashMode.on {
-            btn.setImage(UIImage.init(named: "flash-off"), for: UIControlState.normal)
+            btn.setImage(UIImage.yl_imageName("flash-off"), for: UIControlState.normal)
             
             if try! device?.lockForConfiguration() != nil {
                 device?.flashMode = AVCaptureFlashMode.off
                 device?.unlockForConfiguration()
             }
         }else {
-            btn.setImage(UIImage.init(named: "flash"), for: UIControlState.normal)
+            btn.setImage(UIImage.yl_imageName("flash"), for: UIControlState.normal)
             
             if try! device?.lockForConfiguration() != nil {
                 device?.flashMode = AVCaptureFlashMode.on

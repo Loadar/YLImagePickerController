@@ -8,6 +8,40 @@
 
 import UIKit
 
+extension UIImage {
+    
+    class func yl_imageName(_ name: String) -> UIImage? {
+        let bundle = Bundle.yl_imagePickerFileBundle()
+        if let imagePath = bundle?.path(forResource: name, ofType: "png"),
+            let image = UIImage.init(contentsOfFile: imagePath) {
+            return image
+        }else {
+            return UIImage.init(named: name)
+        }
+    }
+    
+}
+
+extension Bundle {
+    
+    class func yl_imagePickerFileBundle() -> Bundle? {
+    
+        let bundle = Bundle.init(for: YLImagePickerController.self)
+        
+        if  let url = bundle.url(forResource: "YLImagePickerController", withExtension: "bundle"),
+            let b = Bundle.init(url: url) {
+            return b
+        }else {
+            return Bundle.main
+        }
+    }
+    
+    class func yl_imagePickerNibBundle() -> Bundle {
+        let bundle = Bundle.init(for: YLImagePickerController.self)
+        return bundle
+    }
+    
+}
 
 // MARK: - 颜色获取
 extension UIColor {

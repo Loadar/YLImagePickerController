@@ -81,7 +81,7 @@ class YLPhotoBrowser: UIViewController {
         let backBtn = UIButton.init(type: UIButtonType.system)
         backBtn.frame = CGRect.init(x: 0, y: 0, width: 25, height: 25)
         
-        backBtn.setImage(UIImage.init(named: "photo_navi_back"), for: UIControlState.normal)
+        backBtn.setImage(UIImage.yl_imageName("photo_navi_back"), for: UIControlState.normal)
         backBtn.addTarget(self, action: #selector(YLPhotoBrowser.backBtnHandle), for: UIControlEvents.touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: backBtn)
         
@@ -200,12 +200,12 @@ class YLPhotoBrowser: UIViewController {
         
         if assetModel?.isSelected == true {
             
-            let image = UIImage.init(named: "photo_selected")
+            let image = UIImage.yl_imageName("photo_selected")
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle(String(assetModel?.selectedSerialNumber ?? 0), for: UIControlState.normal)
         }else {
             
-            let image = UIImage.init(named: "photo_no_selected")
+            let image = UIImage.yl_imageName("photo_no_selected")
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle("", for: UIControlState.normal)
         }

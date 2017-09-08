@@ -31,7 +31,7 @@ class YLToolbarBottom: UIView {
     // 根据xib初始化
     class func loadNib() -> YLToolbarBottom {
         
-        if let toolbar = Bundle.main.loadNibNamed("YLToolbarBottom", owner: nil, options: nil)?.first as? YLToolbarBottom {
+        if let toolbar = Bundle.yl_imagePickerNibBundle().loadNibNamed("YLToolbarBottom", owner: nil, options: nil)?.first as? YLToolbarBottom {
             return toolbar
         }else {
             return YLToolbarBottom()

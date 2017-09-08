@@ -24,7 +24,7 @@ class YLAuthErrorViewController: UIViewController {
         
         view.backgroundColor = UIColor.white
         
-        let imageView = UIImageView.init(image: UIImage.init(named: "photo_lock"))
+        let imageView = UIImageView.init(image: UIImage.yl_imageName("photo_lock"))
         view.addSubview(imageView)
         
         // 约束

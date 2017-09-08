@@ -52,13 +52,13 @@ class YLThumbnailCell: UICollectionViewCell {
             
             if assetModel.isSelected == true {
                 
-                let image = UIImage.init(named: "photo_selected")
+                let image = UIImage.yl_imageName("photo_selected")
                 photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
                 photoTagBtn.setTitle(String(assetModel.selectedSerialNumber), for: UIControlState.normal)
                 
             }else {
                 
-                let image = UIImage.init(named: "photo_no_selected")
+                let image = UIImage.yl_imageName("photo_no_selected")
                 photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
                 photoTagBtn.setTitle("", for: UIControlState.normal)
                 

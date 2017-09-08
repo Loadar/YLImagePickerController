@@ -44,7 +44,7 @@ class YLAlbumPickerController: UIViewController {
     /// 加载UI
     func layoutUI() {
         
-        tableView.register(UINib.init(nibName: "YLAlbumCell", bundle: Bundle.main), forCellReuseIdentifier: "cell")
+        tableView.register(UINib.init(nibName: "YLAlbumCell", bundle: Bundle.yl_imagePickerNibBundle()), forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)

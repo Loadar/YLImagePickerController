@@ -39,7 +39,6 @@
 		79CC014F1F6119EF00ABC4E7 /* sure@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79CC014D1F6119EF00ABC4E7 /* sure@3x.png */; };
 		79DD85121F5804660095C1CC /* YLAnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD85091F5804660095C1CC /* YLAnimatedTransition.swift */; };
 		79DD85131F5804660095C1CC /* YLDrivenInteractive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850A1F5804660095C1CC /* YLDrivenInteractive.swift */; };
-		79DD85141F5804660095C1CC /* YLGifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850B1F5804660095C1CC /* YLGifImage.swift */; };
 		79DD85151F5804660095C1CC /* YLPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850C1F5804660095C1CC /* YLPhoto.swift */; };
 		79DD85161F5804660095C1CC /* YLPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */; };
 		79DD85171F5804660095C1CC /* YLPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850E1F5804660095C1CC /* YLPhotoCell.swift */; };
@@ -88,7 +87,6 @@
 		79CC014D1F6119EF00ABC4E7 /* sure@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sure@3x.png"; sourceTree = "<group>"; };
 		79DD85091F5804660095C1CC /* YLAnimatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLAnimatedTransition.swift; sourceTree = "<group>"; };
 		79DD850A1F5804660095C1CC /* YLDrivenInteractive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLDrivenInteractive.swift; sourceTree = "<group>"; };
-		79DD850B1F5804660095C1CC /* YLGifImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLGifImage.swift; sourceTree = "<group>"; };
 		79DD850C1F5804660095C1CC /* YLPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhoto.swift; sourceTree = "<group>"; };
 		79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhotoBrowser.swift; sourceTree = "<group>"; };
 		79DD850E1F5804660095C1CC /* YLPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhotoCell.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 			children = (
 				79DD85091F5804660095C1CC /* YLAnimatedTransition.swift */,
 				79DD850A1F5804660095C1CC /* YLDrivenInteractive.swift */,
-				79DD850B1F5804660095C1CC /* YLGifImage.swift */,
 				79DD850C1F5804660095C1CC /* YLPhoto.swift */,
 				79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */,
 				79DD850E1F5804660095C1CC /* YLPhotoCell.swift */,
@@ -352,7 +349,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B42D02C5E4B31EA7EF6C8F22 /* [CP] Copy Pods Resources */ = {
@@ -392,7 +389,6 @@
 				79DD85171F5804660095C1CC /* YLPhotoCell.swift in Sources */,
 				79DD85121F5804660095C1CC /* YLAnimatedTransition.swift in Sources */,
 				79BC52F51F593DB800FE53D7 /* YLToolbarBottom.swift in Sources */,
-				79DD85141F5804660095C1CC /* YLGifImage.swift in Sources */,
 				79DD85191F5804660095C1CC /* YLPopAnimator.swift in Sources */,
 				790BC7901F57B589007A090A /* YLAlbumCell.swift in Sources */,
 				791ACE961F5FB8D40019B8A6 /* YLExtension.swift in Sources */,

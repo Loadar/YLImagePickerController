@@ -74,7 +74,7 @@ class YLPhotoPickerController: UIViewController {
     
     func layoutUI() {
         
-        collectionView.register(UINib.init(nibName: "YLThumbnailCell", bundle: Bundle.main), forCellWithReuseIdentifier: "cell")
+        collectionView.register(UINib.init(nibName: "YLThumbnailCell", bundle: Bundle.yl_imagePickerNibBundle()), forCellWithReuseIdentifier: "cell")
         
         collectionView.delegate = self
         collectionView.dataSource = self

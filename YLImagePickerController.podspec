@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'YLImagePickerController'
 
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = '选择相册和拍照 支持多种裁剪'
 
   s.description      = <<-DESC
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.source_files = ["Sources/**/*.swift","Sources/**/*.xib"]
   s.resource_bundles = {
-    'YLImagePickerControllerBundle' => ['Sources/**/*.png']
+    'YLImagePickerController' => ['Sources/**/*.png']
   }
 
   s.requires_arc = true
