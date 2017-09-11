@@ -36,7 +36,7 @@ class YLCameraPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         let imagePicker = self.navigationController as! YLImagePickerController
+        let imagePicker = self.navigationController as! YLImagePickerController
         cropType = imagePicker.cropType
         
         cameraView = UIView()

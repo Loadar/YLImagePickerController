@@ -96,7 +96,7 @@ class YLPhotoPickerController: UIViewController {
         
         
         if imagePicker.isOneChoose == false {
-        
+            
             view.addSubview(toolbar)
             // 约束
             toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -270,7 +270,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
             PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 
                 if let image = result {
-                
+                    
                     if imagePicker.cropType != CropType.none {
                         
                         // 单选 裁剪
@@ -306,7 +306,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
 
 // MARK: - YLPhotoBrowserDelegate
 extension YLPhotoPickerController: YLPhotoBrowserDelegate {
-
+    
     func epPhotoBrowserGetPhotoCount() -> Int {
         return photos.count
     }
@@ -364,7 +364,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
             }
             
         }
-    
+        
         return photo ?? YLPhoto()
     }
     
@@ -387,7 +387,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         
         var images = [UIImage]()
         for assetModel in selectPhotos {
-        
+            
             PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 
                 if let image = result {

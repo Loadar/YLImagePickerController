@@ -42,7 +42,6 @@
 		79DD85151F5804660095C1CC /* YLPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850C1F5804660095C1CC /* YLPhoto.swift */; };
 		79DD85161F5804660095C1CC /* YLPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */; };
 		79DD85171F5804660095C1CC /* YLPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850E1F5804660095C1CC /* YLPhotoCell.swift */; };
-		79DD85181F5804660095C1CC /* YLPhotoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD850F1F5804660095C1CC /* YLPhotoProgressView.swift */; };
 		79DD85191F5804660095C1CC /* YLPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD85101F5804660095C1CC /* YLPopAnimator.swift */; };
 		79DD851A1F5804660095C1CC /* YLPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD85111F5804660095C1CC /* YLPushAnimator.swift */; };
 		79DF63CB1F5E6BA300BF58D5 /* YLCameraPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF63CA1F5E6BA300BF58D5 /* YLCameraPickerController.swift */; };
@@ -90,7 +89,6 @@
 		79DD850C1F5804660095C1CC /* YLPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhoto.swift; sourceTree = "<group>"; };
 		79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhotoBrowser.swift; sourceTree = "<group>"; };
 		79DD850E1F5804660095C1CC /* YLPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhotoCell.swift; sourceTree = "<group>"; };
-		79DD850F1F5804660095C1CC /* YLPhotoProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPhotoProgressView.swift; sourceTree = "<group>"; };
 		79DD85101F5804660095C1CC /* YLPopAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPopAnimator.swift; sourceTree = "<group>"; };
 		79DD85111F5804660095C1CC /* YLPushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPushAnimator.swift; sourceTree = "<group>"; };
 		79DF63CA1F5E6BA300BF58D5 /* YLCameraPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLCameraPickerController.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				79DD850C1F5804660095C1CC /* YLPhoto.swift */,
 				79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */,
 				79DD850E1F5804660095C1CC /* YLPhotoCell.swift */,
-				79DD850F1F5804660095C1CC /* YLPhotoProgressView.swift */,
 				79DD85101F5804660095C1CC /* YLPopAnimator.swift */,
 				79DD85111F5804660095C1CC /* YLPushAnimator.swift */,
 			);
@@ -381,7 +378,6 @@
 				79DD85161F5804660095C1CC /* YLPhotoBrowser.swift in Sources */,
 				798483761F5648E80017965B /* ViewController.swift in Sources */,
 				79DF63CF1F5E908100BF58D5 /* YLAuthErrorViewController.swift in Sources */,
-				79DD85181F5804660095C1CC /* YLPhotoProgressView.swift in Sources */,
 				790BC7951F57B589007A090A /* YLThumbnailCell.swift in Sources */,
 				790BC7931F57B589007A090A /* YLAssetModel.swift in Sources */,
 				798483741F5648E80017965B /* AppDelegate.swift in Sources */,

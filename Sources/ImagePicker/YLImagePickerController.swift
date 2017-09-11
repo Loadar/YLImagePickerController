@@ -183,7 +183,7 @@ public class YLImagePickerController: UINavigationController {
             
             let albumPicker = YLAlbumPickerController()
             self.pushViewController(albumPicker, animated: false)
-        
+            
             if isPushPhotoPicker == true {
                 
                 let photoPicker = YLPhotoPickerController()
