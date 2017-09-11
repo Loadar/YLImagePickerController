@@ -148,6 +148,9 @@ class YLPhotoPickerController: UIViewController {
             DispatchQueue.main.async {
                 self?.navigationItem.title = self?.assetCollection?.localizedTitle
                 self?.collectionView.reloadData()
+                if (self?.photos.count)! > 12 {
+                    self?.collectionView.scrollToItem(at: IndexPath.init(row: (self?.photos.count)! - 1, section: 0), at: UICollectionViewScrollPosition.bottom, animated: false)
+                }
             }
         }
         
