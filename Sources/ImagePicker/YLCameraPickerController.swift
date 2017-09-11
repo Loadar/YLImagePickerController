@@ -294,11 +294,10 @@ class YLCameraPickerController: UIViewController {
                     
                 }else {
                     
-                    self?.displayImage.image = nil
-                    self?.cameraView.isHidden = false
-                    self?.photoView.isHidden = true
-                    
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self?.displayImage.image = nil
+                        self?.cameraView.isHidden = false
+                        self?.photoView.isHidden = true
                         self?.session?.startRunning()
                     }
                     
@@ -309,13 +308,12 @@ class YLCameraPickerController: UIViewController {
     }
     
     func takePhotoAgain() {
-        image = nil
-        
-        displayImage.image = nil
-        cameraView.isHidden = false
-        photoView.isHidden = true
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
+            self?.image = nil
+            self?.displayImage.image = nil
+            self?.cameraView.isHidden = false
+            self?.photoView.isHidden = true
             self?.session?.startRunning()
         }
     }
