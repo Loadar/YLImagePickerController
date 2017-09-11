@@ -49,4 +49,7 @@ imagePicker?.didFinishPickingPhotosHandle = {(images: [UIImage]) in
 present(imagePicker!, animated: true, completion: nil)
 ```
 
-​     
+# 最近更新 
+
+- 0.0.5	添加原图功能 
+
