@@ -9,9 +9,23 @@
 import UIKit
 import Photos
 
+
+/// 图片类型
+///
+/// - photo: jpg、png
+/// - gif: gif动画
+/// - video: 视频
+enum YLAssetType {
+    case photo
+    case gif
+    case video
+}
+
 class YLAssetModel {
     /// 资源
     var asset: PHAsset!
+    /// 类型
+    var type: YLAssetType!
     /// 缩略图
     var thumbnailImage: UIImage?
     /// 是否选择

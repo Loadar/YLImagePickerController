@@ -41,8 +41,6 @@ class YLPhotoBrowser: UIViewController {
     var toolbarBottom : YLToolbarBottom = {
         
         let toolbar = YLToolbarBottom.loadNib()
-        toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.SendBtnHandle), for: UIControlEvents.touchUpInside)
-        toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         return toolbar
     }()
     
@@ -55,7 +53,6 @@ class YLPhotoBrowser: UIViewController {
     deinit {
         dataArray.removeAll()
         delegate = nil
-        print("释放\(self)")
     }
     
     
@@ -135,6 +132,9 @@ class YLPhotoBrowser: UIViewController {
         
         let imagePicker = navigationController as! YLImagePickerController
         toolbarBottom.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
+        
+        toolbarBottom.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.sendBtnHandle), for: UIControlEvents.touchUpInside)
+        toolbarBottom.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         
         // 下面的toobbar
         view.addSubview(toolbarBottom)
@@ -222,7 +222,7 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 发送按钮
-    func SendBtnHandle() {
+    func sendBtnHandle() {
         delegate?.epPhotoBrowserBySendBtnHandle(currentIndex)
     }
     

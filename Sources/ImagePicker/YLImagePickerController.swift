@@ -50,14 +50,12 @@ public class YLImagePickerController: UINavigationController {
      *  多选 true 默认用户点击了一次原图按钮
      */
     public var isSelectedOriginalImage = false
+    /// 是否需要选择gif 动图  默认不需要
+    public var isNeedSelectGifImage = false
     
     var maxImagesCount:Int = 0                  // 最大可选数量
     var isOneChoose: Bool = false               // 是否单选
     var cropType: CropType = CropType.none      // 裁剪类型
-    
-    deinit {
-        print("释放\(self)")
-    }
     
     // 是否支持屏幕旋转
     override public var shouldAutorotate: Bool {
