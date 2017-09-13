@@ -19,8 +19,14 @@ class YLPhotoPickerController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 5
-        let width = YLScreenW > YLScreenH ? YLScreenH : YLScreenW
-        let wh = (width - 25.0) / 4.0
+        
+        let window = UIApplication.shared.keyWindow
+        
+        let w = window?.frame.width ?? UIScreen.main.bounds.width
+        let h = window?.frame.height ?? UIScreen.main.bounds.height
+        
+        let size = w > h ? h : w
+        let wh = (size - 25.0) / 4.0
         layout.itemSize = CGSize.init(width: wh, height: wh)
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
         
@@ -50,12 +56,6 @@ class YLPhotoPickerController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let width = YLScreenW
-        if YLScreenW > YLScreenH {
-            YLScreenW = YLScreenH
-            YLScreenH = width
-        }
         
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -437,7 +437,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
                     
                     frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
 
-                    if frame!.minY < 64 ||  frame!.maxY > YLScreenH - 44 {
+                    if frame!.minY < 64 ||  frame!.maxY > self.view.frame.height - 44 {
                         frame = CGRect.zero
                     }
                 }

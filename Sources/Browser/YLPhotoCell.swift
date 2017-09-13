@@ -80,7 +80,7 @@ class YLPhotoCell: UICollectionViewCell {
         
         let translation = pan.translation(in:  pan.view?.superview)
         
-        var scale = 1 - translation.y / YLScreenH
+        var scale = 1 - translation.y / frame.height
         
         scale = scale > 1 ? 1:scale
         scale = scale < 0 ? 0:scale
