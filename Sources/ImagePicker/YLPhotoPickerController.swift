@@ -10,6 +10,11 @@ import UIKit
 import Photos
 import TOCropViewController
 
+enum YLPhotoBrowserDataSource {
+    case all
+    case preview
+}
+
 class YLPhotoPickerController: UIViewController {
     // 指定相册
     var assetCollection: PHAssetCollection?
@@ -40,6 +45,8 @@ class YLPhotoPickerController: UIViewController {
         
         let toolbar = YLToolbarBottom.loadNib()
         toolbar.sendBtnIsSelect(false)
+        toolbar.previewBtn.isHidden = false
+        toolbar.previewBtnIsSelect(false)
         
         return toolbar
     }()
@@ -48,6 +55,8 @@ class YLPhotoPickerController: UIViewController {
     var photos = [YLAssetModel]()
     // 已经选择的资源
     var selectPhotos = [YLAssetModel]()
+    // 图片浏览器数据来源 默认所有图片
+    var photoBrowserDataSource: YLPhotoBrowserDataSource = YLPhotoBrowserDataSource.all
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -95,6 +104,8 @@ class YLPhotoPickerController: UIViewController {
             
             toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoPickerController.sendBtnHandle), for: UIControlEvents.touchUpInside)
             toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
+            
+            toolbar.previewBtn.addTarget(self, action: #selector(YLPhotoPickerController.previewBtnHandle), for: UIControlEvents.touchUpInside)
             
             toolbar.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
             
@@ -180,6 +191,13 @@ class YLPhotoPickerController: UIViewController {
         toolbar.originalImageBtnIsSelect(!isSelectedOriginalImage)
         imagePicker.isSelectedOriginalImage = !isSelectedOriginalImage
         
+    }
+    
+    /// 预览
+    func previewBtnHandle() {
+        photoBrowserDataSource = .preview
+        let photoBrowser = YLPhotoBrowser.init(0, self)
+        self.navigationController?.pushViewController(photoBrowser, animated: true)
     }
     
     /// 获取用户导出图片大小
@@ -335,8 +353,10 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
         
         if selectPhotos.count == 0 {
             toolbar.sendBtnIsSelect(false)
+            toolbar.previewBtnIsSelect(false)
         }else {
             toolbar.sendBtnIsSelect(true)
+            toolbar.previewBtnIsSelect(true)
         }
     }
     
@@ -382,6 +402,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
         }else {
             
             if let row = self.photos.index(where: { $0 === assetModel }) {
+                photoBrowserDataSource = .all
                 let photoBrowser = YLPhotoBrowser.init(row, self)
                 self.navigationController?.pushViewController(photoBrowser, animated: true)
             }
@@ -394,58 +415,72 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
 extension YLPhotoPickerController: YLPhotoBrowserDelegate {
     
     func epPhotoBrowserGetPhotoCount() -> Int {
-        return photos.count
+        switch photoBrowserDataSource {
+        case .all:
+            return photos.count
+        case .preview:
+            return selectPhotos.count
+        }
     }
     
     func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
+        
+        var assetModel: YLAssetModel?
+        
+        switch photoBrowserDataSource {
+        case .all:
+            assetModel = photos[currentIndex]
+        case .preview:
+            assetModel = selectPhotos[currentIndex]
+        }
         
         let options = PHImageRequestOptions()
         options.resizeMode = PHImageRequestOptionsResizeMode.fast
         options.isSynchronous = true
         
-        let assetModel = photos[currentIndex]
-        
         var photo: YLPhoto?
         
-        let aspectRatio: CGFloat = CGFloat(assetModel.asset.pixelWidth) / CGFloat(assetModel.asset.pixelHeight)
-        var pixelWidth: CGFloat = collectionView.frame.width * 2
-        // 超宽图片
-        if aspectRatio > 1.8 {
-            pixelWidth = pixelWidth * aspectRatio
-        }
-        // 超高图片
-        if aspectRatio < 0.2 {
-            pixelWidth = pixelWidth * 0.5
-        }
-        var pixelHeight:CGFloat = pixelWidth / aspectRatio
+        if let assetModel = assetModel {
         
-        if pixelWidth > CGFloat(assetModel.asset.pixelWidth) ||
-            pixelHeight > CGFloat(assetModel.asset.pixelHeight) {
+            let aspectRatio: CGFloat = CGFloat(assetModel.asset.pixelWidth) / CGFloat(assetModel.asset.pixelHeight)
+            var pixelWidth: CGFloat = collectionView.frame.width * 2
+            // 超宽图片
+            if aspectRatio > 1.8 {
+                pixelWidth = pixelWidth * aspectRatio
+            }
+            // 超高图片
+            if aspectRatio < 0.2 {
+                pixelWidth = pixelWidth * 0.5
+            }
+            var pixelHeight:CGFloat = pixelWidth / aspectRatio
             
-            pixelWidth = CGFloat(assetModel.asset.pixelWidth)
-            pixelHeight = CGFloat(assetModel.asset.pixelHeight)
-        }
-        
-        let imageSize = CGSize.init(width: pixelWidth, height: pixelHeight)
-        
-        PHImageManager.default().requestImage(for: assetModel.asset, targetSize: imageSize, contentMode: PHImageContentMode.aspectFill, options: options) { (result:UIImage?, _) in
-            
-            if let image = result {
-                var frame:CGRect?
+            if pixelWidth > CGFloat(assetModel.asset.pixelWidth) ||
+                pixelHeight > CGFloat(assetModel.asset.pixelHeight) {
                 
-                if let cell = self.collectionView.cellForItem(at: IndexPath.init(row: currentIndex, section: 0)) {
-                    
-                    frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
-
-                    if frame!.minY < 64 ||  frame!.maxY > self.view.frame.height - 44 {
-                        frame = CGRect.zero
-                    }
-                }
-                
-                photo = YLPhoto.addImage(image, frame: frame)
-                photo?.assetModel = assetModel
+                pixelWidth = CGFloat(assetModel.asset.pixelWidth)
+                pixelHeight = CGFloat(assetModel.asset.pixelHeight)
             }
             
+            let imageSize = CGSize.init(width: pixelWidth, height: pixelHeight)
+            
+            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: imageSize, contentMode: PHImageContentMode.aspectFill, options: options) { (result:UIImage?, _) in
+                
+                if let image = result {
+                    var frame:CGRect?
+                    
+                    if let cell = self.collectionView.cellForItem(at: IndexPath.init(row: currentIndex, section: 0)) {
+                        
+                        frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
+                        
+                        if frame!.minY < 64 ||  frame!.maxY > self.view.frame.height - 44 {
+                            frame = CGRect.zero
+                        }
+                    }
+                    
+                    photo = YLPhoto.addImage(image, frame: frame)
+                    photo?.assetModel = assetModel
+                }
+            }
         }
         
         return photo ?? YLPhoto()
