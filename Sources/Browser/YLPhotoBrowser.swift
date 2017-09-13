@@ -389,6 +389,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
     
     func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
+        animatedTransition?.gestureRecognizer = nil
         animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
     }
 }

@@ -139,9 +139,9 @@ class YLPhotoCell: UICollectionViewCell {
             }else {
                 
                 imageView.isHidden = true
-                delegate?.epPanGestureRecognizerEnd(imageView.frame,photo: self.photo)
-                
             }
+            
+            delegate?.epPanGestureRecognizerEnd(imageView.frame,photo: self.photo)
             
             break
         }
