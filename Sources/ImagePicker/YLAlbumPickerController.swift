@@ -122,7 +122,7 @@ extension YLAlbumPickerController: UITableViewDelegate,UITableViewDataSource {
             options.resizeMode = PHImageRequestOptionsResizeMode.fast
             options.isSynchronous = true
             
-            PHImageManager.default().requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.default, options: options) { (image:UIImage?, _) in
+            PHImageManager.default().requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.aspectFill, options: options) { (image:UIImage?, _) in
                 cell?.albumImageView.image = image
             }
         }

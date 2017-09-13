@@ -75,9 +75,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             break
         }
         
-        imagePicker?.didFinishPickingPhotosHandle = {(images: [UIImage]) in
-            for image in images {
-                print(image.size)
+        imagePicker?.didFinishPickingPhotosHandle = {(photos: [YLPhotoModel]) in
+            for photo in photos {
+                
+                if photo.type == YLAssetType.photo {
+                    print((UIImagePNGRepresentation(photo.image!)?.count)! / 1024)
+                }else if photo.type == YLAssetType.gif {
+                    print((photo.data?.count)! / 1024)
+                }
             }
         }
         present(imagePicker!, animated: true, completion: nil)

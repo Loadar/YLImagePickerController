@@ -316,7 +316,8 @@ class YLCameraPickerController: UIViewController {
     func surePhoto() {
         let imagePicker = self.navigationController as! YLImagePickerController
         if let image = image {
-            imagePicker.didFinishPickingPhotosHandle?([image])
+            let photoModel = YLPhotoModel.init(image: image)
+            imagePicker.didFinishPickingPhotosHandle?([photoModel])
         }
         imagePicker.goBack()
     }
@@ -343,7 +344,8 @@ extension YLCameraPickerController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
         
         let imagePicker = self.navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?([image])
+        let photoModel = YLPhotoModel.init(image: image)
+        imagePicker.didFinishPickingPhotosHandle?([photoModel])
         imagePicker.goBack()
     }
 }

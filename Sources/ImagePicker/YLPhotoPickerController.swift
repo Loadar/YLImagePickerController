@@ -205,16 +205,16 @@ class YLPhotoPickerController: UIViewController {
         options.resizeMode = PHImageRequestOptionsResizeMode.fast
         options.isSynchronous = true
         
-        var images = [UIImage]()
+        var photos = [YLPhotoModel]()
         for assetModel in assetModels {
             
             if assetModel.type == .gif {
     
                 PHImageManager.default().requestImageData(for: assetModel.asset, options: options, resultHandler: { (data:Data?, dataUTI:String?, _, _) in
                     
-                    if let data = data,
-                        let image =  UIImage.yl_gifWithData(data) {
-                        images.append(image)
+                    if let data = data {
+                        let photoModel = YLPhotoModel.init(gifData: data)
+                        photos.append(photoModel)
                     }
                     
                 })
@@ -224,14 +224,15 @@ class YLPhotoPickerController: UIViewController {
                 PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
                     if let image = result {
-                        images.append(image)
+                        let photoModel = YLPhotoModel.init(image: image)
+                        photos.append(photoModel)
                     }
                 })
             }
         }
         
         let imagePicker = navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?(images)
+        imagePicker.didFinishPickingPhotosHandle?(photos)
         imagePicker.goBack()
         
     }
@@ -434,13 +435,10 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
                 
                 if let cell = self.collectionView.cellForItem(at: IndexPath.init(row: currentIndex, section: 0)) {
                     
-                    let window = UIApplication.shared.keyWindow
-                    
-                    let rect1 = cell.convert(cell.frame, from: self.collectionView)
-                    frame = cell.convert(rect1, to: window)
-                    
+                    frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
+
                     if frame!.minY < 64 ||  frame!.maxY > YLScreenH - 44 {
-                        frame = nil
+                        frame = CGRect.zero
                     }
                 }
                 
@@ -484,7 +482,8 @@ extension YLPhotoPickerController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
         
         let imagePicker = self.navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?([image])
+        let photoModel = YLPhotoModel.init(image: image)
+        imagePicker.didFinishPickingPhotosHandle?([photoModel])
         imagePicker.goBack()
     }
 }
