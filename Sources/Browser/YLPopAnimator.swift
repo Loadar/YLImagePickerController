@@ -64,6 +64,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
             }, completion: { (finished:Bool) in
                 
                 bgView.removeFromSuperview()
+                originalCoverView.removeFromSuperview()
                 transitionImgView.removeFromSuperview()
                 
                 // 设置transitionContext通知系统动画执行完毕
