@@ -15,7 +15,7 @@ protocol YLPhotoBrowserDelegate: NSObjectProtocol {
     func epPhotoBrowserGetPhotoCount() -> Int
     func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto
     func epPhotoBrowserByPhotoTagBtnHandle(_ assetModel:YLAssetModel?)
-    func epPhotoBrowserBySendBtnHandle(_ currentIndex: Int)
+    func epPhotoBrowserBySendBtnHandle(_ assetModel:YLAssetModel?)
 }
 
 let PhotoBrowserBG = UIColor.black
@@ -224,7 +224,8 @@ class YLPhotoBrowser: UIViewController {
     
     /// 发送按钮
     func sendBtnHandle() {
-        delegate?.epPhotoBrowserBySendBtnHandle(currentIndex)
+        let photo = getDataByCurrentIndex(currentIndex)
+        delegate?.epPhotoBrowserBySendBtnHandle(photo?.assetModel)
     }
     
     /// 选择原图

@@ -55,6 +55,8 @@ class YLPhotoPickerController: UIViewController {
     var photos = [YLAssetModel]()
     // 已经选择的资源
     var selectPhotos = [YLAssetModel]()
+    // 预览的资源
+    var previewPhotos = [YLAssetModel]()
     // 图片浏览器数据来源 默认所有图片
     var photoBrowserDataSource: YLPhotoBrowserDataSource = YLPhotoBrowserDataSource.all
     
@@ -154,7 +156,7 @@ class YLPhotoPickerController: UIViewController {
                     if let assetType = asset.value(forKey: "filename") as? String {
                         if assetType.hasSuffix("GIF") == true &&
                             imagePicker.isNeedSelectGifImage == true {
-                            assetModel.type = .gif 
+                            assetModel.type = .gif
                         }else {
                             assetModel.type = .photo
                         }
@@ -180,7 +182,7 @@ class YLPhotoPickerController: UIViewController {
     
     /// 发送按钮
     func sendBtnHandle() {
-        epPhotoBrowserBySendBtnHandle(-1)
+        epPhotoBrowserBySendBtnHandle(nil)
     }
     
     /// 选择原图
@@ -196,6 +198,8 @@ class YLPhotoPickerController: UIViewController {
     /// 预览
     func previewBtnHandle() {
         photoBrowserDataSource = .preview
+        previewPhotos.removeAll()
+        previewPhotos += selectPhotos
         let photoBrowser = YLPhotoBrowser.init(0, self)
         self.navigationController?.pushViewController(photoBrowser, animated: true)
     }
@@ -218,7 +222,7 @@ class YLPhotoPickerController: UIViewController {
     
     /// 完成选择
     func didFinishPickingPhotos(_ assetModels: [YLAssetModel]) {
-    
+        
         let options = PHImageRequestOptions()
         options.resizeMode = PHImageRequestOptionsResizeMode.fast
         options.isSynchronous = true
@@ -227,7 +231,7 @@ class YLPhotoPickerController: UIViewController {
         for assetModel in assetModels {
             
             if assetModel.type == .gif {
-    
+                
                 PHImageManager.default().requestImageData(for: assetModel.asset, options: options, resultHandler: { (data:Data?, dataUTI:String?, _, _) in
                     
                     if let data = data {
@@ -369,11 +373,11 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
             
             if imagePicker.cropType != CropType.none &&
                 assetModel.type != .gif {
-            
+                
                 let options = PHImageRequestOptions()
                 options.resizeMode = PHImageRequestOptionsResizeMode.fast
                 options.isSynchronous = true
-
+                
                 PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
                     if let image = result {
@@ -403,6 +407,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
             
             if let row = self.photos.index(where: { $0 === assetModel }) {
                 photoBrowserDataSource = .all
+                previewPhotos.removeAll()
                 let photoBrowser = YLPhotoBrowser.init(row, self)
                 self.navigationController?.pushViewController(photoBrowser, animated: true)
             }
@@ -419,7 +424,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         case .all:
             return photos.count
         case .preview:
-            return selectPhotos.count
+            return previewPhotos.count
         }
     }
     
@@ -431,7 +436,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         case .all:
             assetModel = photos[currentIndex]
         case .preview:
-            assetModel = selectPhotos[currentIndex]
+            assetModel = previewPhotos[currentIndex]
         }
         
         let options = PHImageRequestOptions()
@@ -441,7 +446,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         var photo: YLPhoto?
         
         if let assetModel = assetModel {
-        
+            
             let aspectRatio: CGFloat = CGFloat(assetModel.asset.pixelWidth) / CGFloat(assetModel.asset.pixelHeight)
             var pixelWidth: CGFloat = collectionView.frame.width * 2
             // 超宽图片
@@ -468,7 +473,8 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
                 if let image = result {
                     var frame:CGRect?
                     
-                    if let cell = self.collectionView.cellForItem(at: IndexPath.init(row: currentIndex, section: 0)) {
+                    if let row = self.photos.index(where: { $0 === assetModel }),
+                        let cell = self.collectionView.cellForItem(at: IndexPath.init(row: row, section: 0)) {
                         
                         frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
                         
@@ -492,15 +498,14 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         }
     }
     
-    func epPhotoBrowserBySendBtnHandle(_ currentIndex: Int) {
+    func epPhotoBrowserBySendBtnHandle(_ assetModel: YLAssetModel?) {
         
-        let options = PHImageRequestOptions()
-        options.resizeMode = PHImageRequestOptionsResizeMode.fast
-        options.isSynchronous = true
-        
-        if selectPhotos.count == 0 && currentIndex >= 0 {
-            // 发送当前图片 currentIndex
-            selectPhotos.append(photos[currentIndex])
+        if selectPhotos.count == 0 {
+            // 发送当前图片 assetModel
+            if let assetModel = assetModel,
+                let index = self.photos.index(where: { $0 === assetModel }) {
+                selectPhotos.append(photos[index])
+            }
         }
         
         didFinishPickingPhotos(selectPhotos)
