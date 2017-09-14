@@ -75,6 +75,8 @@ public class YLImagePickerController: UINavigationController {
     public var isSelectedOriginalImage = false
     /// 是否需要选择gif 动图  默认不需要
     public var isNeedSelectGifImage = false
+    /// 是否需要选择视频      默认不需要
+    public var isNeedSelectVideo = false
     
     var maxImagesCount:Int = 0                  // 最大可选数量
     var isOneChoose: Bool = false               // 是否单选

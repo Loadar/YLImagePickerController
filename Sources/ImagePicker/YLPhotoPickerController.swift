@@ -153,15 +153,18 @@ class YLPhotoPickerController: UIViewController {
                     let assetModel = YLAssetModel()
                     assetModel.asset = asset
                     
-                    if let assetType = asset.value(forKey: "filename") as? String {
-                        if assetType.hasSuffix("GIF") == true &&
-                            imagePicker.isNeedSelectGifImage == true {
-                            assetModel.type = .gif
-                        }else {
-                            assetModel.type = .photo
+                    // 判断gif
+                    if asset.mediaType == PHAssetMediaType.image &&
+                        imagePicker.isNeedSelectGifImage == true {
+                        if let assetType = asset.value(forKey: "filename") as? String {
+                            if assetType.hasSuffix("GIF") == true {
+                                    assetModel.type = .gif
+                            }
                         }
-                    }else {
-                        assetModel.type = .photo
+                    // 判断视频
+                    }else if asset.mediaType == PHAssetMediaType.video &&
+                        imagePicker.isNeedSelectVideo == true {
+                        assetModel.type = .video
                     }
                     
                     self?.photos.append(assetModel)
@@ -177,7 +180,6 @@ class YLPhotoPickerController: UIViewController {
                 }
             }
         }
-        
     }
     
     /// 发送按钮
