@@ -31,6 +31,7 @@ class YLPhotoCell: UICollectionViewCell {
         let sv = UIScrollView(frame: CGRect.zero)
         sv.showsHorizontalScrollIndicator = false
         sv.showsVerticalScrollIndicator = false
+        sv.bounces = false
         sv.maximumZoomScale = 4.0
         sv.minimumZoomScale = 1.0
         return sv
