@@ -23,7 +23,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataArray += ["单选不裁剪","单选方形裁剪","单选圆形裁剪","多选-可以选择GIF","多选-可以选视频","多选","拍照不裁剪","拍照方形裁剪"]
+        dataArray += ["单选不裁剪","单选方形裁剪","单选圆形裁剪","多选","拍照不裁剪","拍照方形裁剪"]
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
@@ -64,20 +64,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.album, cropType: CropType.circular)
         case 3:
             imagePicker = YLImagePickerController.init(maxImagesCount: 3)
-            imagePicker?.isNeedSelectGifImage = true
         case 4:
-            imagePicker = YLImagePickerController.init(maxImagesCount: 3)
-            imagePicker?.isNeedSelectVideo = true
-        case 5:
-            imagePicker = YLImagePickerController.init(maxImagesCount: 3)
-        case 6:
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.none)
-        case 7:
+        case 5:
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.square)
         default:
             break
         }
-        
+        /// 可以选择GIf
+        imagePicker?.isNeedSelectGifImage = true
+        /// 可以选择视频
+        imagePicker?.isNeedSelectVideo = true
         imagePicker?.didFinishPickingPhotosHandle = {(photos: [YLPhotoModel]) in
             for photo in photos {
                 
