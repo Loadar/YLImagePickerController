@@ -307,7 +307,7 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
             if photo.assetModel?.type == .video {
             
                 let cell: YLVideoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLVideoCell", for: indexPath) as! YLVideoCell
-                cell.updatePhoto(photo)
+                cell.updatePhoto(photo,row: indexPath.row)
                 cell.delegate = self
                 
                 return cell
@@ -340,19 +340,19 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
             let photo = getDataByCurrentIndex(currentIndex)
             showPhotoTagBtn(photo?.assetModel)
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("videoCellReceivescrollViewDelegate"), object: ["state":"endDecelerating","currentIndex":String(currentIndex)])
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name("videoCellReceivescrollViewDelegate"), object: ["state":"beginDragging","currentIndex":String(currentIndex)])
+        
     }
 }
 
 extension YLPhotoBrowser: YLVideoCellDelegate {
 
-    func epVideoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
-        
-    }
-    
-    func epVideoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
-        
-    }
-    
     func epVideoSingleTap(isHidden: Bool) {
         self.navigationController?.setNavigationBarHidden(isHidden, animated: false)
         toolbarBottom.isHidden = isHidden

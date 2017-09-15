@@ -85,6 +85,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     print((UIImagePNGRepresentation(photo.image!)?.count)! / 1024)
                 }else if photo.type == YLAssetType.gif {
                     print((photo.data?.count)! / 1024)
+                }else if photo.type == YLAssetType.video {
+                    print("视频")
                 }
             }
         }

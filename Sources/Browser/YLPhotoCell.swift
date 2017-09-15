@@ -47,6 +47,10 @@ class YLPhotoCell: UICollectionViewCell {
         
     }()
     
+    deinit {
+        delegate = nil
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layoutUI()

@@ -10,8 +10,6 @@ import UIKit
 import Photos
 
 protocol YLVideoCellDelegate :NSObjectProtocol {
-    func epVideoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
-    func epVideoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
     func epVideoSingleTap(isHidden: Bool)
 }
 
@@ -21,6 +19,8 @@ class YLVideoCell: UICollectionViewCell {
     
     weak var delegate: YLVideoCellDelegate?
 
+    var row: Int = -100
+    
     var player: AVPlayer = AVPlayer()
     var playerLayer: AVPlayerLayer = {
         let playerLayer = AVPlayerLayer()
@@ -38,6 +38,11 @@ class YLVideoCell: UICollectionViewCell {
        playImageView.image = UIImage.yl_imageName("photo_play")
         return playImageView
     }()
+    
+    deinit {
+        delegate = nil
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,6 +75,37 @@ class YLVideoCell: UICollectionViewCell {
         // 手势
         let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.singleTap))
         self.addGestureRecognizer(singleTap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(YLVideoCell.scrollViewDelegate(_:)), name: NSNotification.Name("videoCellReceivescrollViewDelegate"), object: nil)
+    }
+    
+    /// 滚动视图监听
+    func scrollViewDelegate(_ not: Notification) {
+    
+        if let obj = not.object as? Dictionary<String, String> {
+            
+            let state = obj["state"]
+            let currentIndex = Int(obj["currentIndex"]!)
+            
+            if state == "endDecelerating" {
+            
+                if (currentIndex == row - 1 ||
+                    currentIndex == row + 1) &&
+                    player.currentItem != nil &&
+                    player.currentTime() != kCMTimeZero {
+                    
+                    player.seek(to: kCMTimeZero)
+                }
+                
+            }else if state == "beginDragging" {
+                if currentIndex == row &&
+                    playImageView.isHidden == true {
+                    player.pause()
+                    playImageView.isHidden = false
+                    delegate?.epVideoSingleTap(isHidden: false)
+                }
+            }
+        }
     }
     
     /// 单击手势
@@ -86,9 +122,11 @@ class YLVideoCell: UICollectionViewCell {
         }
     }
     
-    func updatePhoto(_ photo: YLPhoto) {
+    func updatePhoto(_ photo: YLPhoto, row: Int) {
         
         self.photo = photo
+        self.row = row
+        
         player.replaceCurrentItem(with: nil)
         player.pause()
         playImageView.isHidden = true
@@ -108,9 +146,7 @@ class YLVideoCell: UICollectionViewCell {
                     self?.playImageView.isHidden = false
                     
                 }
-                
             })
         }
     }
-    
 }
