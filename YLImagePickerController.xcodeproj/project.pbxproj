@@ -24,6 +24,7 @@
 		791ACEA21F5FD99A0019B8A6 /* round@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 791ACE9C1F5FD99A0019B8A6 /* round@3x.png */; };
 		791ACEA51F5FFF230019B8A6 /* flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 791ACEA31F5FFF230019B8A6 /* flash@2x.png */; };
 		791ACEA61F5FFF230019B8A6 /* flash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 791ACEA41F5FFF230019B8A6 /* flash@3x.png */; };
+		794368C91F6B62CD00B9CE91 /* YLVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794368C81F6B62CD00B9CE91 /* YLVideoCell.swift */; };
 		798483741F5648E80017965B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798483731F5648E80017965B /* AppDelegate.swift */; };
 		798483761F5648E80017965B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798483751F5648E80017965B /* ViewController.swift */; };
 		7984837B1F5648E80017965B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7984837A1F5648E80017965B /* Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		791ACE9C1F5FD99A0019B8A6 /* round@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "round@3x.png"; sourceTree = "<group>"; };
 		791ACEA31F5FFF230019B8A6 /* flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@2x.png"; sourceTree = "<group>"; };
 		791ACEA41F5FFF230019B8A6 /* flash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash@3x.png"; sourceTree = "<group>"; };
+		794368C81F6B62CD00B9CE91 /* YLVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLVideoCell.swift; sourceTree = "<group>"; };
 		798483701F5648E80017965B /* YLImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		798483731F5648E80017965B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		798483751F5648E80017965B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				79DD850C1F5804660095C1CC /* YLPhoto.swift */,
 				79DD850D1F5804660095C1CC /* YLPhotoBrowser.swift */,
 				79DD850E1F5804660095C1CC /* YLPhotoCell.swift */,
+				794368C81F6B62CD00B9CE91 /* YLVideoCell.swift */,
 				79DD85101F5804660095C1CC /* YLPopAnimator.swift */,
 				79DD85111F5804660095C1CC /* YLPushAnimator.swift */,
 			);
@@ -379,6 +382,7 @@
 				798483761F5648E80017965B /* ViewController.swift in Sources */,
 				79DF63CF1F5E908100BF58D5 /* YLAuthErrorViewController.swift in Sources */,
 				790BC7951F57B589007A090A /* YLThumbnailCell.swift in Sources */,
+				794368C91F6B62CD00B9CE91 /* YLVideoCell.swift in Sources */,
 				790BC7931F57B589007A090A /* YLAssetModel.swift in Sources */,
 				798483741F5648E80017965B /* AppDelegate.swift in Sources */,
 				790BC7941F57B589007A090A /* YLImagePickerController.swift in Sources */,

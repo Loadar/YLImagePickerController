@@ -116,7 +116,9 @@ class YLPhotoBrowser: UIViewController {
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         
-        collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "YLPhotoCell")
+        collectionView.register(YLVideoCell.self, forCellWithReuseIdentifier: "YLVideoCell")
         
         collectionView.backgroundColor = UIColor.clear
         collectionView.isPagingEnabled = true
@@ -344,16 +346,26 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: YLPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! YLPhotoCell
-        
         if let photo = getDataByCurrentIndex(indexPath.row) {
             
-            cell.updatePhoto(photo)
-            cell.delegate = self
+            if photo.assetModel?.type == .video {
             
+                let cell: YLVideoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLVideoCell", for: indexPath) as! YLVideoCell
+                cell.updatePhoto(photo)
+                
+                return cell
+            }else if photo.assetModel?.type == .photo ||
+                photo.assetModel?.type == .gif {
+                
+                let cell: YLPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLPhotoCell", for: indexPath) as! YLPhotoCell
+                cell.updatePhoto(photo)
+                cell.delegate = self
+                
+                return cell
+            }
         }
         
-        return cell
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
     }
     
