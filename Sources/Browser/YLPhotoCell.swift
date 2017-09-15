@@ -10,8 +10,10 @@ import UIKit
 import Photos
 
 protocol YLPhotoCellDelegate :NSObjectProtocol {
-    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
-    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
+    func epPhotoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
+    func epPhotoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
+    func epPhotoSingleTap()
+    func epPhotoDoubleTap()
 }
 
 class YLPhotoCell: UICollectionViewCell {
@@ -73,7 +75,27 @@ class YLPhotoCell: UICollectionViewCell {
         
         scrollView.addSubview(imageView)
         
+        // 手势
+        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.singleTap))
+        self.addGestureRecognizer(singleTap)
+        let doubleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.doubleTap))
+        doubleTap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTap)
+        // 优先识别 双击
+        singleTap.require(toFail: doubleTap)
+        
     }
+    
+    /// 单击手势
+    func singleTap() {
+        delegate?.epPhotoSingleTap()
+    }
+    
+    /// 双击手势
+    func doubleTap() {
+        delegate?.epPhotoDoubleTap()
+    }
+
     
     // 慢移手势
     func pan(_ pan: UIPanGestureRecognizer) {
@@ -107,7 +129,7 @@ class YLPhotoCell: UICollectionViewCell {
                 panBeginScaleY = 1
             }
             
-            delegate?.epPanGestureRecognizerBegin(pan,photo: self.photo)
+            delegate?.epPhotoPanGestureRecognizerBegin(pan,photo: self.photo)
             
             break
         case .changed:
@@ -141,7 +163,7 @@ class YLPhotoCell: UICollectionViewCell {
                 imageView.isHidden = true
             }
             
-            delegate?.epPanGestureRecognizerEnd(imageView.frame,photo: self.photo)
+            delegate?.epPhotoPanGestureRecognizerEnd(imageView.frame,photo: self.photo)
             
             break
         }

@@ -9,9 +9,17 @@
 import UIKit
 import Photos
 
+protocol YLVideoCellDelegate :NSObjectProtocol {
+    func epVideoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
+    func epVideoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
+    func epVideoSingleTap()
+}
+
 class YLVideoCell: UICollectionViewCell {
     
     var photo: YLPhoto!
+    
+    weak var delegate: YLVideoCellDelegate?
     
     // 图片容器
     let imageView: UIImageView = {
@@ -53,9 +61,17 @@ class YLVideoCell: UICollectionViewCell {
         self.addSubview(playBtn)
         playBtn.translatesAutoresizingMaskIntoConstraints = false
         playBtn.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
+     
         
+        // 手势
+        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.singleTap))
+        self.addGestureRecognizer(singleTap)
     }
     
+    /// 单击手势
+    func singleTap() {
+        delegate?.epVideoSingleTap()
+    }
     
     func updatePhoto(_ photo: YLPhoto) {
         

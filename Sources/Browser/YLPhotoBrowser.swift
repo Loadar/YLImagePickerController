@@ -91,15 +91,6 @@ class YLPhotoBrowser: UIViewController {
         let photo = getDataByCurrentIndex(currentIndex)
         showPhotoTagBtn(photo?.assetModel)
         
-        // 手势
-        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoBrowser.singleTap))
-        view.addGestureRecognizer(singleTap)
-        let doubleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoBrowser.doubleTap))
-        doubleTap.numberOfTapsRequired = 2
-        view.addGestureRecognizer(doubleTap)
-        // 优先识别 双击
-        singleTap.require(toFail: doubleTap)
-        
         layoutUI()
         
         collectionView.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: UICollectionViewScrollPosition.left, animated: false)
@@ -149,41 +140,6 @@ class YLPhotoBrowser: UIViewController {
         toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
         
         view.layoutIfNeeded()
-    }
-    
-    /// 单击手势
-    func singleTap() {
-        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
-        toolbarBottom.isHidden = !toolbarBottom.isHidden
-    }
-    
-    /// 双击手势
-    func doubleTap() {
-        
-        if let imageView = getCurrentImageView(),
-            let scrollView = imageView.superview as? UIScrollView,
-            let image = imageView.image {
-            
-            if scrollView.zoomScale == 1 {
-                
-                var scale:CGFloat = 0
-                
-                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
-                if height >= view.frame.height {
-                    scale = 2
-                }else {
-                    scale = view.frame.height / height
-                }
-                
-                scale = scale > 4 ? 4: scale
-                scale = scale < 1 ? 2: scale
-                
-                scrollView.setZoomScale(scale, animated: true)
-            }else {
-                scrollView.setZoomScale(1, animated: true)
-            }
-            
-        }
     }
     
     /// 返回
@@ -386,11 +342,27 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     }
 }
 
+extension YLPhotoBrowser: YLVideoCellDelegate {
+
+    func epVideoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
+        
+    }
+    
+    func epVideoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
+        
+    }
+    
+    func epVideoSingleTap() {
+        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
+        toolbarBottom.isHidden = !toolbarBottom.isHidden
+    }
+    
+}
 
 // MARK: - YLPhotoCellDelegate
 extension YLPhotoBrowser: YLPhotoCellDelegate {
     
-    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
+    func epPhotoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         toolbarBottom.isHidden = true
@@ -402,9 +374,41 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
         
     }
     
-    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
+    func epPhotoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
         animatedTransition?.gestureRecognizer = nil
         animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
+    }
+    
+    func epPhotoSingleTap() {
+        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
+        toolbarBottom.isHidden = !toolbarBottom.isHidden
+    }
+    
+    func epPhotoDoubleTap() {
+        if let imageView = getCurrentImageView(),
+            let scrollView = imageView.superview as? UIScrollView,
+            let image = imageView.image {
+            
+            if scrollView.zoomScale == 1 {
+                
+                var scale:CGFloat = 0
+                
+                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
+                if height >= view.frame.height {
+                    scale = 2
+                }else {
+                    scale = view.frame.height / height
+                }
+                
+                scale = scale > 4 ? 4: scale
+                scale = scale < 1 ? 2: scale
+                
+                scrollView.setZoomScale(scale, animated: true)
+            }else {
+                scrollView.setZoomScale(1, animated: true)
+            }
+            
+        }
     }
 }
