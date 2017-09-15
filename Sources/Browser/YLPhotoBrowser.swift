@@ -308,6 +308,7 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
             
                 let cell: YLVideoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLVideoCell", for: indexPath) as! YLVideoCell
                 cell.updatePhoto(photo)
+                cell.delegate = self
                 
                 return cell
             }else if photo.assetModel?.type == .photo ||
@@ -352,11 +353,11 @@ extension YLPhotoBrowser: YLVideoCellDelegate {
         
     }
     
-    func epVideoSingleTap() {
-        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
-        toolbarBottom.isHidden = !toolbarBottom.isHidden
+    func epVideoSingleTap(isHidden: Bool) {
+        self.navigationController?.setNavigationBarHidden(isHidden, animated: false)
+        toolbarBottom.isHidden = isHidden
     }
-    
+
 }
 
 // MARK: - YLPhotoCellDelegate

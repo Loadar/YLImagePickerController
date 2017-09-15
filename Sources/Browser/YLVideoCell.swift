@@ -12,7 +12,7 @@ import Photos
 protocol YLVideoCellDelegate :NSObjectProtocol {
     func epVideoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
     func epVideoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
-    func epVideoSingleTap()
+    func epVideoSingleTap(isHidden: Bool)
 }
 
 class YLVideoCell: UICollectionViewCell {
@@ -20,24 +20,23 @@ class YLVideoCell: UICollectionViewCell {
     var photo: YLPhoto!
     
     weak var delegate: YLVideoCellDelegate?
-    
-    // 图片容器
-    let imageView: UIImageView = {
-        
-        let imgView = UIImageView()
-        imgView.backgroundColor = UIColor.clear
-        imgView.tag = ImageViewTag
-        imgView.contentMode = UIViewContentMode.scaleAspectFit
-        return imgView
-        
+
+    var player: AVPlayer = AVPlayer()
+    var playerLayer: AVPlayerLayer = {
+        let playerLayer = AVPlayerLayer()
+        return playerLayer
+    }()
+    var playerView: UIView = {
+        let playerView = UIView()
+        playerView.backgroundColor = UIColor.clear
+        return playerView
     }()
     
-    let playBtn: UIButton = {
+    let playImageView: UIImageView = {
         
-        let playBtn = UIButton.init(type: UIButtonType.custom)
-        playBtn.setTitle("播放", for: UIControlState.normal)
-        playBtn.setTitleColor(UIColor.red, for: UIControlState.normal)
-        return playBtn
+        let playImageView = UIImageView()
+       playImageView.image = UIImage.yl_imageName("photo_play")
+        return playImageView
     }()
     
     override init(frame: CGRect) {
@@ -54,14 +53,19 @@ class YLVideoCell: UICollectionViewCell {
         
         backgroundColor = UIColor.clear
         
-        self.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        // 视频播放器
+        self.addSubview(playerView)
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        playerView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
         
-        self.addSubview(playBtn)
-        playBtn.translatesAutoresizingMaskIntoConstraints = false
-        playBtn.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
-     
+        playerLayer.player = player
+        playerLayer.frame = self.bounds
+        playerView.layer.addSublayer(playerLayer)
+        
+        playerView.addSubview(playImageView)
+        playImageView.translatesAutoresizingMaskIntoConstraints = false
+        playImageView.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
+        playImageView.addLayoutConstraint(widthConstant: 50, heightConstant: 50)
         
         // 手势
         let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.singleTap))
@@ -70,34 +74,43 @@ class YLVideoCell: UICollectionViewCell {
     
     /// 单击手势
     func singleTap() {
-        delegate?.epVideoSingleTap()
+        
+        if playImageView.isHidden == false {
+            player.play()
+            playImageView.isHidden = true
+            delegate?.epVideoSingleTap(isHidden: true)
+        }else {
+            player.pause()
+            playImageView.isHidden = false
+            delegate?.epVideoSingleTap(isHidden: false)
+        }
     }
     
     func updatePhoto(_ photo: YLPhoto) {
         
         self.photo = photo
-    
-        imageView.image = nil
+        player.replaceCurrentItem(with: nil)
+        player.pause()
+        playImageView.isHidden = true
         
-        if let image = photo.image {
-            imageView.frame = YLPhotoBrowser.getImageViewFrame(image.size)
-            imageView.image = image
+        if let asset = photo.assetModel?.asset {
+            
+            let options = PHVideoRequestOptions()
+            options.deliveryMode = .fastFormat
+            options.isNetworkAccessAllowed = true
+            
+            PHImageManager.default().requestPlayerItem(forVideo: asset, options: options, resultHandler: { [weak self] (item:AVPlayerItem?, _) in
+                
+                DispatchQueue.main.async {
+                    
+                    self?.player.replaceCurrentItem(with: item)
+                    self?.player.pause()
+                    self?.playImageView.isHidden = false
+                    
+                }
+                
+            })
         }
-        
-//        if photo.assetModel?.type == .gif {
-//            if let asset = photo.assetModel?.asset {
-//                let options = PHImageRequestOptions()
-//                options.resizeMode = PHImageRequestOptionsResizeMode.fast
-//                options.isSynchronous = true
-//                PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { [weak self] (data:Data?, dataUTI:String?, _, _) in
-//                    
-//                    if let data = data {
-//                        self?.imageView.image =  UIImage.yl_gifWithData(data)
-//                    }
-//                    
-//                })
-//            }
-//        }
     }
     
 }
