@@ -20,7 +20,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
         }
     }
     
-    private var transitionContext: UIViewControllerContextTransitioning!
+    private var transitionContext: UIViewControllerContextTransitioning?
     private var blackBgView: UIView?
     private var fromView: UIView?
     private var toView: UIView?
@@ -29,6 +29,10 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     private var isFirst = true
     
     func gestureRecognizeDidUpdate(_ gestureRecognizer: UIPanGestureRecognizer) {
+        
+        if self.transitionContext == nil {
+            return
+        }
         
         let translation = gestureRecognizer.translation(in:  gestureRecognizer.view?.superview)
         
@@ -73,10 +77,8 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     
     func beginInterPercent() {
         
-        let transitionContext = self.transitionContext
-        
         // 转场过渡的容器view
-        if let containerView = transitionContext?.containerView {
+        if let containerView = self.transitionContext?.containerView {
             
             // ToVC
             let toViewController = transitionContext?.viewController(forKey: UITransitionContextViewControllerKey.to)
@@ -130,12 +132,10 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
         gestureRecognizer?.removeTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
         gestureRecognizer = nil
         
-        let transitionContext = self.transitionContext
-        
         fromView?.isHidden = true
         
         // 转场过渡的容器view
-        if let containerView = transitionContext?.containerView {
+        if let containerView = self.transitionContext?.containerView {
             
             // 过度的图片
             let transitionImgView = UIImageView.init(image: transitionImage)
@@ -157,7 +157,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
                         self?.originalCoverView?.removeFromSuperview()
                         transitionImgView.removeFromSuperview()
                         
-                        transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+                        self?.transitionContext?.completeTransition(!(self?.transitionContext?.transitionWasCancelled)!)
                         
                 })
                 
@@ -175,7 +175,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
                 self?.originalCoverView?.removeFromSuperview()
                 transitionImgView.removeFromSuperview()
                 
-                transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+                self?.transitionContext?.completeTransition(!(self?.transitionContext?.transitionWasCancelled)!)
                 
             }
         }

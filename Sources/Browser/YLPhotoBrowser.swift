@@ -134,11 +134,8 @@ class YLPhotoBrowser: UIViewController {
         view.addSubview(toolbarBottom)
         // 约束
         toolbarBottom.translatesAutoresizingMaskIntoConstraints = false
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
-        
+        toolbarBottom.addLayoutConstraint(attributes: [.left,.right,.bottom], toItem: view, constants: [0,0,0])
+        toolbarBottom.addLayoutConstraint(attribute: .height, constant: 44)
         view.layoutIfNeeded()
     }
     
@@ -168,12 +165,12 @@ class YLPhotoBrowser: UIViewController {
         
         if assetModel?.isSelected == true {
             
-            let image = UIImage.yl_imageName("photo_selected")
+            let image = UIImage.yl_imageName("photo_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle(String(assetModel?.selectedSerialNumber ?? 0), for: UIControlState.normal)
         }else {
             
-            let image = UIImage.yl_imageName("photo_no_selected")
+            let image = UIImage.yl_imageName("photo_no_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle("", for: UIControlState.normal)
         }
