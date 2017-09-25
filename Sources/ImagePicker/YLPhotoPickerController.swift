@@ -183,12 +183,12 @@ class YLPhotoPickerController: UIViewController {
     }
     
     /// 发送按钮
-    func sendBtnHandle() {
+    @objc func sendBtnHandle() {
         epPhotoBrowserBySendBtnHandle(nil)
     }
     
     /// 选择原图
-    func originalImageClickBtnHandle() {
+    @objc func originalImageClickBtnHandle() {
         
         let imagePicker = self.navigationController as! YLImagePickerController
         let isSelectedOriginalImage = imagePicker.isSelectedOriginalImage
@@ -198,7 +198,7 @@ class YLPhotoPickerController: UIViewController {
     }
     
     /// 预览
-    func previewBtnHandle() {
+    @objc func previewBtnHandle() {
         photoBrowserDataSource = .preview
         previewPhotos.removeAll()
         previewPhotos += selectPhotos

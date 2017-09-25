@@ -80,7 +80,7 @@ class YLVideoCell: UICollectionViewCell {
     }
     
     /// 滚动视图监听
-    func scrollViewDelegate(_ not: Notification) {
+    @objc func scrollViewDelegate(_ not: Notification) {
     
         if let obj = not.object as? Dictionary<String, String> {
             
@@ -109,7 +109,7 @@ class YLVideoCell: UICollectionViewCell {
     }
     
     /// 单击手势
-    func singleTap() {
+    @objc func singleTap() {
         
         if playImageView.isHidden == false {
             player.play()

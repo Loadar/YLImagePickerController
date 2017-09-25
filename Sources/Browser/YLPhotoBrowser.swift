@@ -140,14 +140,14 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 返回
-    func backBtnHandle() {
+    @objc func backBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         editTransitioningDelegate(photo!)
         self.navigationController?.popViewController(animated: true)
     }
     
     /// 点击 是否选择按钮
-    func photoTagBtnHandle() {
+    @objc func photoTagBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         delegate?.epPhotoBrowserByPhotoTagBtnHandle(photo?.assetModel)
         
@@ -178,7 +178,7 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 发送按钮
-    func sendBtnHandle() {
+    @objc func sendBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         delegate?.epPhotoBrowserBySendBtnHandle(photo?.assetModel)
     }

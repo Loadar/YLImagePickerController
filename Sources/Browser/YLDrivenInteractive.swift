@@ -28,7 +28,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     
     private var isFirst = true
     
-    func gestureRecognizeDidUpdate(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc func gestureRecognizeDidUpdate(_ gestureRecognizer: UIPanGestureRecognizer) {
         
         if self.transitionContext == nil {
             return

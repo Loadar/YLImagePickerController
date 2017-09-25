@@ -62,40 +62,44 @@ class YLCameraPickerController: UIViewController {
     }
     
     func cameraInit() {
-        device = cameraOfPosition(AVCaptureDevicePosition.back)
         
-        try! input = AVCaptureDeviceInput.init(device: device)
+        guard let device: AVCaptureDevice = cameraOfPosition(AVCaptureDevice.Position.back) else {return}
+        self.device = device
+        
+        guard let input = try? AVCaptureDeviceInput.init(device: device) else {return}
+        self.input = input
         
         imageOutput = AVCaptureStillImageOutput()
         
         session = AVCaptureSession()
-        session?.sessionPreset = AVCaptureSessionPreset1920x1080
+        
+        session?.sessionPreset = AVCaptureSession.Preset.hd1920x1080
         
         if session?.canAddInput(input) == true {
             session?.addInput(input)
         }
-        if session?.canAddOutput(imageOutput) == true {
-            session?.addOutput(imageOutput)
+        if session?.canAddOutput(imageOutput!) == true {
+            session?.addOutput(imageOutput!)
         }
         
-        previewLayer = AVCaptureVideoPreviewLayer.init(session: session)
-        previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        previewLayer = AVCaptureVideoPreviewLayer.init(session: session!)
+        previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         previewLayer?.frame = view.bounds
         cameraView.layer.addSublayer(previewLayer!)
         
         session?.startRunning()
         
-        if try! device?.lockForConfiguration() != nil {
+        if (try? device.lockForConfiguration()) != nil  {
             
-            if device?.isFlashModeSupported(AVCaptureFlashMode.off) == true {
-                device?.flashMode = AVCaptureFlashMode.off
+            if device.isFlashModeSupported(AVCaptureDevice.FlashMode.off) == true {
+                device.flashMode = AVCaptureDevice.FlashMode.off
             }
             
-            if device?.isWhiteBalanceModeSupported(AVCaptureWhiteBalanceMode.autoWhiteBalance) == true {
-                device?.whiteBalanceMode = AVCaptureWhiteBalanceMode.autoWhiteBalance
+            if device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance) == true {
+                device.whiteBalanceMode = AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance
             }
             
-            device?.unlockForConfiguration()
+            device.unlockForConfiguration()
         }
         
     }
@@ -189,14 +193,14 @@ class YLCameraPickerController: UIViewController {
         photoView.layoutSubviews()
     }
     
-    func closeCamera() {
+    @objc func closeCamera() {
         let imagePicker = self.navigationController as! YLImagePickerController
         imagePicker.goBack()
     }
     
-    func changeCamera() {
+    @objc func changeCamera() {
         
-        let cameraCount = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count
+        let cameraCount = AVCaptureDevice.devices(for: AVMediaType.video).count
         if cameraCount > 1 {
             
             let animation = CATransition()
@@ -208,32 +212,32 @@ class YLCameraPickerController: UIViewController {
             var newInput: AVCaptureDeviceInput? = nil
             
             let position = input?.device.position
-            if position == AVCaptureDevicePosition.front {
-                newDevice = cameraOfPosition(AVCaptureDevicePosition.back)
+            if position == AVCaptureDevice.Position.front {
+                newDevice = cameraOfPosition(AVCaptureDevice.Position.back)
                 animation.subtype = kCATransitionFromLeft
             }else {
-                newDevice = cameraOfPosition(AVCaptureDevicePosition.front)
+                newDevice = cameraOfPosition(AVCaptureDevice.Position.front)
                 animation.subtype = kCATransitionFromRight
             }
             
-            newInput = try! AVCaptureDeviceInput.init(device: newDevice)
+            newInput = try! AVCaptureDeviceInput.init(device: newDevice!)
             previewLayer?.add(animation, forKey: "animation")
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) { [weak self] in
-             
+                
                 if newInput != nil {
                     self?.session?.beginConfiguration()
-                    self?.session?.removeInput(self?.input)
-                    if position == AVCaptureDevicePosition.front {
-                        self?.session?.sessionPreset = AVCaptureSessionPreset1920x1080
+                    self?.session?.removeInput((self?.input)!)
+                    if position == AVCaptureDevice.Position.front {
+                        self?.session?.sessionPreset = AVCaptureSession.Preset.hd1920x1080
                     }else {
-                        self?.session?.sessionPreset = AVCaptureSessionPreset1280x720
+                        self?.session?.sessionPreset = AVCaptureSession.Preset.hd1280x720
                     }
-                    if self?.session?.canAddInput(newInput) == true {
-                        self?.session?.addInput(newInput)
+                    if self?.session?.canAddInput(newInput!) == true {
+                        self?.session?.addInput(newInput!)
                         self?.input = newInput
                     }else {
-                        self?.session?.addInput(self?.input)
+                        self?.session?.addInput((self?.input)!)
                     }
                     self?.session?.commitConfiguration()
                 }
@@ -242,67 +246,64 @@ class YLCameraPickerController: UIViewController {
         }
     }
     
-    func changeFlash(_ btn: UIButton) {
-        if device?.flashMode == AVCaptureFlashMode.on {
+    @objc func changeFlash(_ btn: UIButton) {
+        if device?.flashMode == AVCaptureDevice.FlashMode.on {
             btn.setImage(UIImage.yl_imageName("flash-off"), for: UIControlState.normal)
             
-            if try! device?.lockForConfiguration() != nil {
-                device?.flashMode = AVCaptureFlashMode.off
+            if (try? device?.lockForConfiguration()) != nil {
+                device?.flashMode = AVCaptureDevice.FlashMode.off
                 device?.unlockForConfiguration()
             }
         }else {
             btn.setImage(UIImage.yl_imageName("flash"), for: UIControlState.normal)
             
-            if try! device?.lockForConfiguration() != nil {
-                device?.flashMode = AVCaptureFlashMode.on
+            if (try? device?.lockForConfiguration()) != nil {
+                device?.flashMode = AVCaptureDevice.FlashMode.on
                 device?.unlockForConfiguration()
             }
         }
     }
     
-    func takePhoto() {
-        let connect = imageOutput?.connection(withMediaType: AVMediaTypeVideo)
-        if connect != nil {
-            imageOutput?.captureStillImageAsynchronously(from: connect, completionHandler: { [weak self] (imageBuffer:CMSampleBuffer?, _) in
+    @objc func takePhoto() {
+        guard let connect = imageOutput?.connection(with: AVMediaType.video) else {return}
+        
+        imageOutput?.captureStillImageAsynchronously(from: connect, completionHandler: { [weak self] (imageBuffer:CMSampleBuffer?, _) in
+            
+            if let imageBuffer = imageBuffer,
+                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageBuffer),
+                let image = UIImage.init(data: imageData, scale: 1.0) {
                 
-                if let imageBuffer = imageBuffer,
-                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageBuffer),
-                    let image = UIImage.init(data: imageData, scale: 1.0) {
+                if self?.cropType == CropType.none {
                     
-                    if self?.cropType == CropType.none {
-                        
-                        self?.image = image
-                        self?.displayImage.image = image
-                        self?.cameraView.isHidden = true
-                        self?.photoView.isHidden = false
-                        
-                        self?.session?.stopRunning()
-                    }else {
-                        var style = TOCropViewCroppingStyle.default
-                        if self?.cropType == CropType.circular {
-                            style = TOCropViewCroppingStyle.circular
-                        }
-                        let cropViewController = TOCropViewController.init(croppingStyle: style, image: image)
-                        cropViewController.delegate = self
-                        self?.navigationController?.pushViewController(cropViewController, animated: false)
-                    }
+                    self?.image = image
+                    self?.displayImage.image = image
+                    self?.cameraView.isHidden = true
+                    self?.photoView.isHidden = false
                     
+                    self?.session?.stopRunning()
                 }else {
-                    
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-                        self?.displayImage.image = nil
-                        self?.cameraView.isHidden = false
-                        self?.photoView.isHidden = true
-                        self?.session?.startRunning()
+                    var style = TOCropViewCroppingStyle.default
+                    if self?.cropType == CropType.circular {
+                        style = TOCropViewCroppingStyle.circular
                     }
-                    
+                    let cropViewController = TOCropViewController.init(croppingStyle: style, image: image)
+                    cropViewController.delegate = self
+                    self?.navigationController?.pushViewController(cropViewController, animated: false)
                 }
                 
-            })
-        }
+            }else {
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                    self?.displayImage.image = nil
+                    self?.cameraView.isHidden = false
+                    self?.photoView.isHidden = true
+                    self?.session?.startRunning()
+                }
+            }
+        })
     }
     
-    func takePhotoAgain() {
+    @objc func takePhotoAgain() {
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
             self?.image = nil
@@ -313,7 +314,7 @@ class YLCameraPickerController: UIViewController {
         }
     }
     
-    func surePhoto() {
+    @objc func surePhoto() {
         let imagePicker = self.navigationController as! YLImagePickerController
         if let image = image {
             let photoModel = YLPhotoModel.init(image: image)
@@ -322,12 +323,13 @@ class YLCameraPickerController: UIViewController {
         imagePicker.goBack()
     }
     
-    func cameraOfPosition(_ position:AVCaptureDevicePosition) -> AVCaptureDevice? {
-        if let devices:[AVCaptureDevice] = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] {
-            for device in devices {
-                if device.position == position {
-                    return device
-                }
+    func cameraOfPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
+        
+        let devices:[AVCaptureDevice] = AVCaptureDevice.devices(for: AVMediaType.video)
+        
+        for device in devices {
+            if device.position == position {
+                return device
             }
         }
         return nil

@@ -92,18 +92,18 @@ class YLPhotoCell: UICollectionViewCell {
     }
     
     /// 单击手势
-    func singleTap() {
+    @objc func singleTap() {
         delegate?.epPhotoSingleTap()
     }
     
     /// 双击手势
-    func doubleTap() {
+    @objc func doubleTap() {
         delegate?.epPhotoDoubleTap()
     }
 
     
     // 慢移手势
-    func pan(_ pan: UIPanGestureRecognizer) {
+    @objc func pan(_ pan: UIPanGestureRecognizer) {
         
         let translation = pan.translation(in:  pan.view?.superview)
         
