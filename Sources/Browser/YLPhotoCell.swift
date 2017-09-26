@@ -34,6 +34,11 @@ class YLPhotoCell: UICollectionViewCell {
         sv.bounces = false
         sv.maximumZoomScale = 4.0
         sv.minimumZoomScale = 1.0
+        
+        if #available(iOS 11.0, *) {
+            sv.contentInsetAdjustmentBehavior = .never
+        }
+        
         return sv
     }()
     

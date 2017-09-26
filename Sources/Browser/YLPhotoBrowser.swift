@@ -76,7 +76,6 @@ class YLPhotoBrowser: UIViewController {
     
     override func viewDidLoad() {
         
-        self.automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = PhotoBrowserBG
         view.isUserInteractionEnabled = true
         
@@ -106,6 +105,12 @@ class YLPhotoBrowser: UIViewController {
         layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "YLPhotoCell")
@@ -389,7 +394,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
                 
                 var scale:CGFloat = 0
                 
-                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
+                let height = ceil(YLPhotoBrowser.getImageViewFrame(image.size).height)
                 if height >= view.frame.height {
                     scale = 2
                 }else {

@@ -68,7 +68,11 @@ class YLPhotoPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "取消", style: UIBarButtonItemStyle.done, target: self.navigationController, action: #selector(YLImagePickerController.goBack))
         
@@ -93,9 +97,9 @@ class YLPhotoPickerController: UIViewController {
         // 约束
         var edgeInsets = UIEdgeInsets.zero
         if imagePicker.isOneChoose == false {
-            edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: -44, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 64, left: 5, bottom: -44, right: -5)
         }else {
-            edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: 0, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 64, left: 5, bottom: 0, right: -5)
         }
         collectionView.addConstraints(toItem: view, edgeInsets: edgeInsets)
         
