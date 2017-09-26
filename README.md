@@ -64,8 +64,7 @@ present(imagePicker!, animated: true, completion: nil)
 
 # 最近更新 
 
-- 0.1.0    适配swift 4.0
-- 0.0.9    适配iOS11
+- 0.0.9    适配iOS11、iPhoneX、swift 4.0
 - 0.0.8    添加视频功能
 - 0.0.7    添加预览功能
 - 0.0.6    添加GIF功能
