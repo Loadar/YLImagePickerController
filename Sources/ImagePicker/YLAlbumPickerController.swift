@@ -40,19 +40,13 @@ class YLAlbumPickerController: UIViewController {
     /// 加载UI
     func layoutUI() {
         
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }
-        
         tableView.register(UINib.init(nibName: "YLAlbumCell", bundle: Bundle.yl_imagePickerNibBundle()), forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
         
         // 约束
-        tableView.addConstraints(toItem: view, edgeInsets: .init(top: 64, left: 0, bottom: 0, right: 0))
+        tableView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         view.layoutIfNeeded()
     }
