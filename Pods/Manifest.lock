@@ -2,11 +2,11 @@ PODS:
   - TOCropViewController (2.1.0)
 
 DEPENDENCIES:
-  - TOCropViewController
+  - TOCropViewController (~> 2.1.0)
 
 SPEC CHECKSUMS:
   TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
 
-PODFILE CHECKSUM: efb9f63d4cb025f6f0362ca5feff4b7de8b8d601
+PODFILE CHECKSUM: 45866ada8efa8d88bc38a943248a642982304b57
 
 COCOAPODS: 1.2.1
