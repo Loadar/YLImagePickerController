@@ -19,8 +19,8 @@
 
 # 导入
 
-```swift
-pod 'YLImagePickerController'
+```objective-c
+pod 'YLImagePickerController', '~> 0.0.9'
 ```
 
 # 使用 
