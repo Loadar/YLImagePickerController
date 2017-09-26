@@ -75,9 +75,7 @@ class YLPhotoCell: UICollectionViewCell {
         addSubview(scrollView)
         
         // scrollView 约束
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
-        
+        scrollView.addConstraints(toItem: self, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         scrollView.addSubview(imageView)
         
         // 手势

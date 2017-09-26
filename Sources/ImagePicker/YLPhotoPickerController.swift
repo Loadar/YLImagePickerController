@@ -91,15 +91,13 @@ class YLPhotoPickerController: UIViewController {
         view.addSubview(collectionView)
         
         // 约束
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         var edgeInsets = UIEdgeInsets.zero
         if imagePicker.isOneChoose == false {
             edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: -44, right: -5)
         }else {
             edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: 0, right: -5)
         }
-        collectionView.addLayoutConstraint(toItem: view, edgeInsets: edgeInsets)
+        collectionView.addConstraints(toItem: view, edgeInsets: edgeInsets)
         
         
         if imagePicker.isOneChoose == false {
@@ -113,12 +111,7 @@ class YLPhotoPickerController: UIViewController {
             
             view.addSubview(toolbar)
             // 约束
-            toolbar.translatesAutoresizingMaskIntoConstraints = false
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
-            
+            toolbar.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
         }
         
         view.layoutIfNeeded()

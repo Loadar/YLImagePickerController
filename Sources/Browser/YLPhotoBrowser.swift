@@ -120,8 +120,7 @@ class YLPhotoBrowser: UIViewController {
         view.addSubview(collectionView)
         
         // collectionView 约束
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        collectionView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         
         let imagePicker = navigationController as! YLImagePickerController
@@ -133,9 +132,7 @@ class YLPhotoBrowser: UIViewController {
         // 下面的toobbar
         view.addSubview(toolbarBottom)
         // 约束
-        toolbarBottom.translatesAutoresizingMaskIntoConstraints = false
-        toolbarBottom.addLayoutConstraint(attributes: [.left,.right,.bottom], toItem: view, constants: [0,0,0])
-        toolbarBottom.addLayoutConstraint(attribute: .height, constant: 44)
+        toolbarBottom.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
         view.layoutIfNeeded()
     }
     

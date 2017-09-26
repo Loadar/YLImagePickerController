@@ -39,15 +39,13 @@ class YLCameraPickerController: UIViewController {
         cameraView.backgroundColor = UIColor.lightGray
         view.addSubview(cameraView)
         
-        cameraView.translatesAutoresizingMaskIntoConstraints = false
-        cameraView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        cameraView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         photoView = UIView()
         photoView.backgroundColor = UIColor.lightGray
         view.addSubview(photoView)
         
-        photoView.translatesAutoresizingMaskIntoConstraints = false
-        photoView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        photoView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         photoView.isHidden = true
         
@@ -110,41 +108,29 @@ class YLCameraPickerController: UIViewController {
         closeBtn.setImage(UIImage.yl_imageName("cross"), for: UIControlState.normal)
         closeBtn.addTarget(self, action: #selector(YLCameraPickerController.closeCamera), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(closeBtn)
-        closeBtn.translatesAutoresizingMaskIntoConstraints = false
-        closeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: cameraView, constant: 15)
-        closeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: cameraView, constant: 10)
-        closeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 40)
-        closeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
+        
+        closeBtn.addConstraints(attributes: [.top,.left,.width,.height], toItem: cameraView, attributes: nil, constants: [15,10,40,40])
         
         let takePhotoBtn = UIButton.init(type: UIButtonType.custom)
         takePhotoBtn.setImage(UIImage.yl_imageName("round"), for: UIControlState.normal)
         takePhotoBtn.addTarget(self, action: #selector(YLCameraPickerController.takePhoto), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(takePhotoBtn)
-        takePhotoBtn.translatesAutoresizingMaskIntoConstraints = false
-        takePhotoBtn.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: cameraView, constant: -10)
-        takePhotoBtn.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: cameraView, constant: 0)
-        takePhotoBtn.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 100)
-        takePhotoBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 100)
+        
+        takePhotoBtn.addConstraints(attributes: [.bottom,.centerX,.width,.height], toItem: cameraView, attributes: nil, constants: [-10,0,100,100])
         
         let flashChangeBtn = UIButton.init(type: UIButtonType.custom)
         flashChangeBtn.setImage(UIImage.yl_imageName("flash-off"), for: UIControlState.normal)
         flashChangeBtn.addTarget(self, action: #selector(YLCameraPickerController.changeFlash(_:)), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(flashChangeBtn)
-        flashChangeBtn.translatesAutoresizingMaskIntoConstraints = false
-        flashChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: cameraView, constant: 15 )
-        flashChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: cameraView, constant: -60)
-        flashChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 40)
-        flashChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
+        
+        flashChangeBtn.addConstraints(attributes: [.top,.right,.width,.height], toItem: cameraView, attributes: nil, constants: [15,-60,40,40])
         
         let cameraChangeBtn = UIButton.init(type: UIButtonType.custom)
         cameraChangeBtn.setImage(UIImage.yl_imageName("camera-front-on"), for: UIControlState.normal)
         cameraChangeBtn.addTarget(self, action: #selector(YLCameraPickerController.changeCamera), for: UIControlEvents.touchUpInside)
         cameraView.addSubview(cameraChangeBtn)
-        cameraChangeBtn.translatesAutoresizingMaskIntoConstraints = false
-        cameraChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: cameraView, constant: 15 )
-        cameraChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: cameraView, constant: -10)
-        cameraChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 40)
-        cameraChangeBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
+        
+        cameraChangeBtn.addConstraints(attributes: [.top,.right,.width,.height], toItem: cameraView, attributes: nil, constants: [15,-10,40,40])
         
         cameraView.layoutIfNeeded()
     }
@@ -153,15 +139,14 @@ class YLCameraPickerController: UIViewController {
         
         displayImage = UIImageView()
         photoView.addSubview(displayImage)
-        displayImage.translatesAutoresizingMaskIntoConstraints = false
-        displayImage.addLayoutConstraint(toItem: photoView, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        
+        displayImage.addConstraints(toItem: photoView, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         let toolbarTop = UIView()
         toolbarTop.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
         photoView.addSubview(toolbarTop)
-        toolbarTop.translatesAutoresizingMaskIntoConstraints = false
-        toolbarTop.addLayoutConstraint(attributes: [NSLayoutAttribute.top,NSLayoutAttribute.left,NSLayoutAttribute.right], toItem: photoView, constants: [20,0,0])
-        toolbarTop.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 30)
+        
+        toolbarTop.addConstraints(attributes: [.top,.left,.right,.height], toItem: photoView, attributes: nil, constants: [20,0,0,30])
         
         let takePhotoAgainBtn = UIButton()
         takePhotoAgainBtn.setTitle("重拍", for: UIControlState.normal)
@@ -169,11 +154,8 @@ class YLCameraPickerController: UIViewController {
         takePhotoAgainBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         takePhotoAgainBtn.addTarget(self, action: #selector(YLCameraPickerController.takePhotoAgain), for: UIControlEvents.touchUpInside)
         toolbarTop.addSubview(takePhotoAgainBtn)
-        takePhotoAgainBtn.translatesAutoresizingMaskIntoConstraints = false
-        takePhotoAgainBtn.addLayoutConstraint(attribute: NSLayoutAttribute.centerY, toItem: toolbarTop, constant: 0 )
-        takePhotoAgainBtn.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: toolbarTop, constant: 10)
-        takePhotoAgainBtn.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 40)
-        takePhotoAgainBtn.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 20)
+        
+        takePhotoAgainBtn.addConstraints(attributes: [.centerY,.left,.width,.height], toItem: toolbarTop, attributes: nil, constants: [0,10,40,20])
         
         let sureBtn = UIButton()
         sureBtn.setTitle("确认", for: UIControlState.normal)
@@ -185,10 +167,8 @@ class YLCameraPickerController: UIViewController {
         
         sureBtn.addTarget(self, action: #selector(YLCameraPickerController.surePhoto), for: UIControlEvents.touchUpInside)
         photoView.addSubview(sureBtn)
-        sureBtn.translatesAutoresizingMaskIntoConstraints = false
-        sureBtn.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: photoView, constant: -50)
-        sureBtn.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: photoView, constant: 0)
-        sureBtn.addLayoutConstraint(widthConstant: 100, heightConstant: 100)
+        
+        sureBtn.addConstraints(attributes: [.bottom,.centerX,.width,.height], toItem: photoView, attributes: nil, constants: [-50,0,100,100])
         
         photoView.layoutSubviews()
     }
