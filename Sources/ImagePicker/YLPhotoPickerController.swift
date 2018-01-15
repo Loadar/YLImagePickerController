@@ -198,11 +198,12 @@ class YLPhotoPickerController: UIViewController {
     }
     
     /// 获取用户导出图片大小
-    func getUserNeedSize(_ size: CGSize) -> CGSize {
+    func getUserNeedSize(_ size: CGSize, asset: PHAsset) -> CGSize {
         var width:CGFloat = CGFloat(size.width)
         var height:CGFloat = CGFloat(size.height)
         // 是否选择了原图
         let imagePicker = navigationController as! YLImagePickerController
+        
         if imagePicker.isSelectedOriginalImage == false &&
             width > imagePicker.photoWidth {
             
@@ -210,6 +211,14 @@ class YLPhotoPickerController: UIViewController {
             height = CGFloat(size.height) / CGFloat(size.width) * width
             
         }
+        
+        if #available(iOS 9.0, *) {
+            if asset.sourceType != PHAssetSourceType.typeUserLibrary {
+                width = imagePicker.photoWidth
+                height = CGFloat(size.height) / CGFloat(size.width) * width
+            }
+        }
+        
         return CGSize.init(width: width, height: height)
     }
     
@@ -244,7 +253,7 @@ class YLPhotoPickerController: UIViewController {
                 let options = PHImageRequestOptions()
                 options.resizeMode = PHImageRequestOptionsResizeMode.fast
                 options.isSynchronous = true
-                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), asset: assetModel.asset), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
                     if let image = result {
                         let photoModel = YLPhotoModel.init(image: image,asset: assetModel.asset)
@@ -380,7 +389,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
                 options.resizeMode = PHImageRequestOptionsResizeMode.fast
                 options.isSynchronous = true
                 
-                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), asset: assetModel.asset), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
                     if let image = result {
                         
