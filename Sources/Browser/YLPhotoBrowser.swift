@@ -132,7 +132,7 @@ class YLPhotoBrowser: UIViewController {
         toolbarBottom.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
         
         toolbarBottom.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.sendBtnHandle), for: UIControlEvents.touchUpInside)
-        toolbarBottom.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
+        toolbarBottom.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoBrowser.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         
         // 下面的toobbar
         view.addSubview(toolbarBottom)
@@ -186,7 +186,7 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 选择原图
-    func originalImageClickBtnHandle() {
+    @objc func originalImageClickBtnHandle() {
         
         let imagePicker = self.navigationController as! YLImagePickerController
         let isSelectedOriginalImage = imagePicker.isSelectedOriginalImage
