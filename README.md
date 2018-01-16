@@ -1,4 +1,4 @@
-# YLPhotoBrowser  
+# YLImagePickerController
 
 ![界面](http://upload-images.jianshu.io/upload_images/6327326-c5cc489fdfbdd848.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)![界面](http://upload-images.jianshu.io/upload_images/6327326-725134e53c71022f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)
 
