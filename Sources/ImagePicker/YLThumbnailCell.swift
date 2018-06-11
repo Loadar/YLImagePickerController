@@ -56,7 +56,7 @@ class YLThumbnailCell: UICollectionViewCell {
                 
                 let image = UIImage.yl_imageName("photo_selected")
                 photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
-                photoTagBtn.setTitle(String(assetModel.selectedSerialNumber), for: UIControlState.normal)
+//                photoTagBtn.setTitle(String(assetModel.selectedSerialNumber), for: UIControlState.normal)
                 
             }else {
                 

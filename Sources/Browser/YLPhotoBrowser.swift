@@ -137,7 +137,12 @@ class YLPhotoBrowser: UIViewController {
         // 下面的toobbar
         view.addSubview(toolbarBottom)
         // 约束
-        toolbarBottom.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
+        var toolbarBottomHeight = 44
+        if UIScreen.main.bounds.size == CGSize(width: 375, height: 812) {
+            toolbarBottomHeight = 44 + 34
+        }
+        
+        toolbarBottom.updateConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,CGFloat(toolbarBottomHeight)])
         view.layoutIfNeeded()
     }
     
@@ -160,21 +165,21 @@ class YLPhotoBrowser: UIViewController {
     func showPhotoTagBtn(_ assetModel: YLAssetModel?) {
         
         let photoTagBtn = UIButton.init(type: UIButtonType.custom)
-        photoTagBtn.frame = CGRect.init(x: 0, y: 0, width: 25, height: 25)
+        photoTagBtn.frame = CGRect.init(x: 0, y: 0, width: 20, height: 20)
         photoTagBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         
         photoTagBtn.addTarget(self, action: #selector(YLPhotoBrowser.photoTagBtnHandle), for: UIControlEvents.touchUpInside)
         
         if assetModel?.isSelected == true {
             
-            let image = UIImage.yl_imageName("photo_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
+            let image = UIImage.yl_imageName("photo_selected")?.yl_scaleToSize(CGSize.init(width: 20, height: 20))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
-            photoTagBtn.setTitle(String(assetModel?.selectedSerialNumber ?? 0), for: UIControlState.normal)
+//            photoTagBtn.setTitle(String(assetModel?.selectedSerialNumber ?? 0), for: UIControlState.normal)
         }else {
             
-            let image = UIImage.yl_imageName("photo_no_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
+            let image = UIImage.yl_imageName("photo_no_selected")?.yl_scaleToSize(CGSize.init(width: 20, height: 20))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
-            photoTagBtn.setTitle("", for: UIControlState.normal)
+//            photoTagBtn.setTitle("", for: UIControlState.normal)
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: photoTagBtn)
     }

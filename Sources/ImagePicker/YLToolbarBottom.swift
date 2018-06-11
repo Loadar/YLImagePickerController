@@ -37,10 +37,10 @@ class YLToolbarBottom: UIView {
     
     func sendBtnIsSelect(_ isSelect: Bool) {
         if isSelect == false {
-            sendBtn.backgroundColor = UIColor.lightGray
+            sendBtn.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
             sendBtn.isEnabled = false
         }else {
-            sendBtn.backgroundColor = sendBtnDefaultColor
+            sendBtn.setTitleColor(UIColor.init(red: 0.28, green: 0.53, blue: 0.98, alpha: 1.00), for: UIControlState.normal)
             sendBtn.isEnabled = true
         }
     }
@@ -50,7 +50,8 @@ class YLToolbarBottom: UIView {
             previewBtn.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
             previewBtn.isEnabled = false
         }else {
-            previewBtn.setTitleColor(UIColor.white, for: UIControlState.normal)
+//            (r:0.28 g:0.53 b:0.98 a:1.00)
+            previewBtn.setTitleColor(UIColor.init(red: 0.28, green: 0.53, blue: 0.98, alpha: 1.00), for: UIControlState.normal)
             previewBtn.isEnabled = true
         }
     }

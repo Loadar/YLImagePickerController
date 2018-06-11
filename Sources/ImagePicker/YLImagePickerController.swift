@@ -299,8 +299,8 @@ public class YLImagePickerController: UINavigationController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
-        navigationBar.barStyle = UIBarStyle.black
-        navigationBar.tintColor = UIColor.white
+        navigationBar.tintColor = UIColor.init(red: 0.28, green: 0.53, blue: 0.98, alpha: 1.00)
+        navigationBar.backgroundColor = .white
         navigationBar.isTranslucent = true
         
     }

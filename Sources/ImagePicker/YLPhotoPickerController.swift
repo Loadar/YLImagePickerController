@@ -23,7 +23,7 @@ class YLPhotoPickerController: UIViewController {
         
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 5
+        layout.minimumLineSpacing = 3
         
         let window = UIApplication.shared.keyWindow
         
@@ -31,7 +31,7 @@ class YLPhotoPickerController: UIViewController {
         let h = window?.frame.height ?? UIScreen.main.bounds.height
         
         let size = w > h ? h : w
-        let wh = (size - 25.0) / 4.0
+        let wh = (size - 15.0) / 4.0
         layout.itemSize = CGSize.init(width: wh, height: wh)
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
         
@@ -68,7 +68,13 @@ class YLPhotoPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "取消", style: UIBarButtonItemStyle.done, target: self.navigationController, action: #selector(YLImagePickerController.goBack))
+        
+        let btn = UIButton()
+        btn.setTitle("取消", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.setTitleColor(UIColor.init(red: 0.28, green: 0.53, blue: 0.98, alpha: 1.00), for: .normal)
+        btn.addTarget(self.navigationController, action: #selector(YLImagePickerController.goBack), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: btn)
         
         view.backgroundColor = UIColor.white
         
@@ -91,9 +97,9 @@ class YLPhotoPickerController: UIViewController {
         // 约束
         var edgeInsets = UIEdgeInsets.zero
         if imagePicker.isOneChoose == false {
-            edgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: -44, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 0, left: 3, bottom: -44, right: -3)
         }else {
-            edgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 0, left: 3, bottom: 0, right: -3)
         }
         collectionView.addConstraints(toItem: view, edgeInsets: edgeInsets)
         
@@ -109,7 +115,11 @@ class YLPhotoPickerController: UIViewController {
             
             view.addSubview(toolbar)
             // 约束
-            toolbar.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
+            var toolbarBottomHeight = 44
+            if UIScreen.main.bounds.size == CGSize(width: 375, height: 812) {
+                toolbarBottomHeight = 44 + 34
+            }
+            toolbar.updateConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,CGFloat(toolbarBottomHeight)])
         }
         
         view.layoutIfNeeded()
