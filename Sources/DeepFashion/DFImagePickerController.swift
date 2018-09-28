@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class DFImagePickerController: UIViewController {
+public class DFImagePickerController: UIViewController {
     private struct DFConfiguration {
         static let imageInterSpace: CGFloat = 3
         static let imageEdgeSpace: CGFloat = 3
@@ -61,7 +61,7 @@ class DFImagePickerController: UIViewController {
 
     private var photoBrowserDataSource: YLPhotoBrowserDataSource = YLPhotoBrowserDataSource.all
     
-    class func controller(maxImageCount: Int, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
+    public class func controller(maxImageCount: Int, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
         let controller = DFImagePickerController()
         controller.maxImageCount = maxImageCount
         controller.completionHandler = handler
