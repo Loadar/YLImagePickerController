@@ -90,7 +90,7 @@ public class DFImagePickerController: UIViewController {
         fetchAlbumData()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -253,13 +253,40 @@ public class DFImagePickerController: UIViewController {
     }
     
     @objc private func confirm(_: Any) {
-        
+        selectionFinished()
     }
     
     @objc private func toSettings(_: Any) {
         guard let url = URL(string: UIApplicationOpenSettingsURLString) else { return }
         guard UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.openURL(url)
+    }
+}
+
+// MARK: - Export
+extension DFImagePickerController {
+    private func selectionFinished() {
+        let models: [YLAssetModel] = selectedImageIndexPathes.map { imageList[$0.item] }
+        
+        var photos = [YLPhotoModel]()
+        for assetModel in models {
+            if assetModel.type == .gif || assetModel.type == .video {
+                continue
+            }
+                
+            let options = PHImageRequestOptions()
+            options.resizeMode = PHImageRequestOptionsResizeMode.fast
+            options.isSynchronous = true
+            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+                if let image = result {
+                    let photoModel = YLPhotoModel.init(image: image,asset: assetModel.asset)
+                    photos.append(photoModel)
+                }
+            })
+        }
+        
+        self.completionHandler?(photos)
+        self.back("")
     }
 }
 
@@ -371,13 +398,13 @@ extension DFImagePickerController {
 }
 
 extension DFImagePickerController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView === albumCollectionView { return albumList.count }
         if collectionView === imageCollectionView { return imageList.count }
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var identifier = String(describing: DFAlbumCell.self)
         if collectionView === imageCollectionView {
             identifier = String(describing: DFYLImageCell.self)
@@ -431,7 +458,7 @@ extension DFImagePickerController: UICollectionViewDataSource, UICollectionViewD
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView === albumCollectionView {
             defer { toSelectAlbum(albumButton) }
             if albumIndex == indexPath.item { return }
