@@ -156,6 +156,7 @@ public class DFImagePickerController: UIViewController {
         confirmButton.setTitle("确定", for: .normal)
         confirmButton.setTitleColor(UIColor(red: 18.0 / 255.0, green: 18.0 / 255.0, blue: 18.0 / 255.0, alpha: 1), for: .normal)
         confirmButton.setTitleColor(UIColor(red: 153.0 / 255.0, green: 153.0 / 255.0, blue: 153.0 / 255.0, alpha: 1), for: .disabled)
+        confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)
         confirmButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -8, left: -8, bottom: -8, right: -8)
         confirmButton.isEnabled = false
         

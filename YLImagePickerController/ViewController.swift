@@ -70,7 +70,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.square)
         case 6:
             let controller = DFImagePickerController.controller(maxImageCount: 9) { (photos) in
-                
+                print(photos)
             }
             self.present(controller, animated: true, completion: nil)
             return
