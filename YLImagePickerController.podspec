@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
   s.author           = { 'yl' => '845369698@qq.com' }
                                                
   s.source           = { 
-                        :git => 'https://github.com/February12/YLImagePickerController.git', 
-                        :tag => s.version.to_s 
+                        :git => 'https://github.com/Loadar/YLImagePickerController.git', 
+                        :branch => "master" 
                        }
 
   s.ios.deployment_target = '8.0'
