@@ -23,7 +23,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataArray += ["单选不裁剪","单选方形裁剪","单选圆形裁剪","多选","拍照不裁剪","拍照方形裁剪"]
+        dataArray += ["单选不裁剪","单选方形裁剪","单选圆形裁剪","多选","拍照不裁剪","拍照方形裁剪", "DF多选"]
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
@@ -68,6 +68,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.none)
         case 5:
             imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.square)
+        case 6:
+            let controller = DFImagePickerController.controller(maxImageCount: 9) { (photos) in
+                
+            }
+            self.present(controller, animated: true, completion: nil)
+            return
         default:
             break
         }
