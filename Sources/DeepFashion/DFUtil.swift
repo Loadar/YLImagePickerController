@@ -10,12 +10,16 @@ import UIKit
 
 class DFUtil {
     
-    class var isIPhoneX: Bool {
-        let size = UIScreen.main.bounds.size
-        let iPhoneXSize = CGSize(width: 375, height: 812)
-        let status = abs(size.width - iPhoneXSize.width) < 1e-6 && abs(size.height - iPhoneXSize.height) < 1e-6
+    public class var isIPhoneX: Bool {
+        // 若安全区域底部大于0，可判定为iPhoneX系列
+        var status = false
+        if #available(iOS 11.0, *) {
+            if let window = UIApplication.shared.windows.first, window.safeAreaInsets.bottom > 0 {
+                status = true
+            }
+        } else {
+            // Fallback on earlier versions
+        }
         return status
     }
-
-    
 }
