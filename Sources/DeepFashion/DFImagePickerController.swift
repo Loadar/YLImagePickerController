@@ -231,7 +231,15 @@ public class DFImagePickerController: UIViewController {
     
     // MARK: - Action
     @objc private func back(_: Any) {
-        self.dismiss(animated: true, completion: nil)
+        confirmSelection(photos: [])
+    }
+    
+    // 统一的退出处理
+    private func confirmSelection(photos: [YLPhotoModel]) {
+        let handler = self.completionHandler
+        self.dismiss(animated: true, completion: {
+            handler?(photos)
+        })
     }
     
     @objc private func toSelectAlbum(_: Any) {
@@ -286,8 +294,7 @@ extension DFImagePickerController {
             })
         }
         
-        self.completionHandler?(photos)
-        self.back("")
+        self.confirmSelection(photos: photos)
     }
 }
 
