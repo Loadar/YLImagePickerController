@@ -38,7 +38,7 @@ class DFYLImageCell: UICollectionViewCell {
         selectButton.setImage(UIImage.yl_imageName("photo_selected"), for: .selected)
         selectButton.adjustsImageWhenHighlighted = false
         selectButton.addTarget(self, action: #selector(imageSelected(_:)), for: .touchUpInside)
-        selectButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -4, left: -10, bottom: -10, right: -4)
+        DFUtil.set(button: selectButton, insets: UIEdgeInsets(top: -4, left: -10, bottom: -10, right: -4))
     }
     
     @objc private func imageSelected(_: Any) {

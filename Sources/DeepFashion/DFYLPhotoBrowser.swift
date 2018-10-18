@@ -80,14 +80,14 @@ class DFYLPhotoBrowser: UIViewController {
         backButton.imageView?.contentMode = .scaleAspectFit
         backButton.setImage(UIImage.yl_imageName("dfBack"), for: .normal)
         backButton.addTarget(self, action: #selector(back(_:)), for: .touchUpInside)
-        backButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -8, left: -10, bottom: -8, right: -10)
+        DFUtil.set(button: backButton, insets: UIEdgeInsets(top: -8, left: -10, bottom: -8, right: -10))
 
         selectButton.imageView?.contentMode = .scaleAspectFit
         selectButton.setImage(UIImage.yl_imageName("photo_no_selected"), for: .normal)
         selectButton.setImage(UIImage.yl_imageName("photo_selected"), for: .selected)
         selectButton.adjustsImageWhenHighlighted = false
         selectButton.addTarget(self, action: #selector(imageSelected(_:)), for: .touchUpInside)
-        selectButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -4, left: -10, bottom: -10, right: -4)
+        DFUtil.set(button: selectButton, insets: UIEdgeInsets(top: -4, left: -10, bottom: -10, right: -4))
     }
     
     private func layoutUI() {

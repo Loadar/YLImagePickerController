@@ -138,7 +138,7 @@ public class DFImagePickerController: UIViewController {
         backButton.imageView?.contentMode = .scaleAspectFit
         backButton.setImage(UIImage.yl_imageName("dfBack"), for: .normal)
         backButton.addTarget(self, action: #selector(back(_:)), for: .touchUpInside)
-        backButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -8, left: -10, bottom: -8, right: -10)
+        DFUtil.set(button: backButton, insets: UIEdgeInsets(top: -8, left: -10, bottom: -8, right: -10))
         
         albumButton.imageView?.contentMode = .scaleAspectFit
         albumButton.setImage(UIImage.yl_imageName("expand"), for: .normal)
@@ -149,7 +149,7 @@ public class DFImagePickerController: UIViewController {
         albumButton.setTitle("相册", for: .normal)
         albumButton.titleLabel?.lineBreakMode = .byTruncatingTail
         albumButton.addTarget(self, action: #selector(toSelectAlbum(_:)), for: .touchUpInside)
-        albumButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -8, left: 0, bottom: -8, right: 0)
+        DFUtil.set(button: albumButton, insets: UIEdgeInsets(top: -8, left: 0, bottom: -8, right: 0))
         
         confirmButton.titleLabel?.font = UIFont(name: "PingFangSC-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)
         confirmButton.titleLabel?.textAlignment = .right
@@ -157,7 +157,7 @@ public class DFImagePickerController: UIViewController {
         confirmButton.setTitleColor(UIColor(red: 18.0 / 255.0, green: 18.0 / 255.0, blue: 18.0 / 255.0, alpha: 1), for: .normal)
         confirmButton.setTitleColor(UIColor(red: 153.0 / 255.0, green: 153.0 / 255.0, blue: 153.0 / 255.0, alpha: 1), for: .disabled)
         confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)
-        confirmButton.cpf_yl_hitTestEdgeInsets = UIEdgeInsets(top: -8, left: -8, bottom: -8, right: -8)
+        DFUtil.set(button: confirmButton, insets: UIEdgeInsets(top: -8, left: -8, bottom: -8, right: -8))
         confirmButton.isEnabled = false
         
         albumView.backgroundColor = .clear

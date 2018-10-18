@@ -10,6 +10,10 @@ import UIKit
 
 class DFUtil {
     
+    public static let shared = DFUtil()
+    
+    var buttonInsetHandler: ((UIButton, UIEdgeInsets) -> Void)?
+    
     public class var isIPhoneX: Bool {
         // 若安全区域底部大于0，可判定为iPhoneX系列
         var status = false
@@ -21,5 +25,9 @@ class DFUtil {
             // Fallback on earlier versions
         }
         return status
+    }
+    
+    public class func set(button: UIButton, insets: UIEdgeInsets) {
+        shared.buttonInsetHandler?(button, insets)
     }
 }

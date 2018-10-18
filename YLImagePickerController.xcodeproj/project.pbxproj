@@ -68,7 +68,6 @@
 		93EDC6FF215DA23B008BB2CA /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EDC6FC215DA23B008BB2CA /* check@2x.png */; };
 		93EDC700215DA23B008BB2CA /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EDC6FD215DA23B008BB2CA /* check.png */; };
 		93EDC701215DA23B008BB2CA /* check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EDC6FE215DA23B008BB2CA /* check@3x.png */; };
-		93EDC703215DC964008BB2CA /* UIView+HitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EDC702215DC964008BB2CA /* UIView+HitTest.swift */; };
 		93EDC705215DCF80008BB2CA /* DFYLImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EDC704215DCF80008BB2CA /* DFYLImageCell.swift */; };
 		93EDC707215DFC9F008BB2CA /* DFYLPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EDC706215DFC9F008BB2CA /* DFYLPhotoBrowser.swift */; };
 /* End PBXBuildFile section */
@@ -136,7 +135,6 @@
 		93EDC6FC215DA23B008BB2CA /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		93EDC6FD215DA23B008BB2CA /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		93EDC6FE215DA23B008BB2CA /* check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@3x.png"; sourceTree = "<group>"; };
-		93EDC702215DC964008BB2CA /* UIView+HitTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+HitTest.swift"; sourceTree = "<group>"; };
 		93EDC704215DCF80008BB2CA /* DFYLImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFYLImageCell.swift; sourceTree = "<group>"; };
 		93EDC706215DFC9F008BB2CA /* DFYLPhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFYLPhotoBrowser.swift; sourceTree = "<group>"; };
 		B6A809BE524ECA354D3D0C51 /* Pods-YLImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLImagePickerController.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLImagePickerController/Pods-YLImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
@@ -288,7 +286,6 @@
 				93EDC6EC215D8125008BB2CA /* DFYLCustomButton.swift */,
 				93EDC6FA215D9EE8008BB2CA /* DFAlbumCell.swift */,
 				93EDC704215DCF80008BB2CA /* DFYLImageCell.swift */,
-				93EDC702215DC964008BB2CA /* UIView+HitTest.swift */,
 				93EDC706215DFC9F008BB2CA /* DFYLPhotoBrowser.swift */,
 			);
 			path = DeepFashion;
@@ -465,7 +462,6 @@
 				93EDC6E3215CE383008BB2CA /* DFImagePickerController.swift in Sources */,
 				93EDC6E5215CE7F9008BB2CA /* DFUtil.swift in Sources */,
 				93EDC705215DCF80008BB2CA /* DFYLImageCell.swift in Sources */,
-				93EDC703215DC964008BB2CA /* UIView+HitTest.swift in Sources */,
 				79DD85131F5804660095C1CC /* YLDrivenInteractive.swift in Sources */,
 				790BC7971F57B589007A090A /* YLPhotoPickerController.swift in Sources */,
 				79DD85161F5804660095C1CC /* YLPhotoBrowser.swift in Sources */,
