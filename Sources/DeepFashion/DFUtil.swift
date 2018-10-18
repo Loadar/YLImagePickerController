@@ -8,11 +8,11 @@
 
 import UIKit
 
-class DFUtil {
+public class DFUtil {
     
     public static let shared = DFUtil()
     
-    var buttonInsetHandler: ((UIButton, UIEdgeInsets) -> Void)?
+    public var buttonInsetHandler: ((UIButton, UIEdgeInsets) -> Void)?
     
     public class var isIPhoneX: Bool {
         // 若安全区域底部大于0，可判定为iPhoneX系列
