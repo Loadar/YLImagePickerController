@@ -58,16 +58,14 @@ public class DFImagePickerController: UIViewController {
     
     var maxImageCount = Int.max
     var completionHandler: (([YLPhotoModel]) -> Void)?
-    var waitingHandler: (() -> Void)?
     
     private weak var photoBrowser: DFYLPhotoBrowser?
 
     private var photoBrowserDataSource: YLPhotoBrowserDataSource = YLPhotoBrowserDataSource.all
     
-    public class func controller(maxImageCount: Int, waitingHandler: @escaping () -> Void, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
+    public class func controller(maxImageCount: Int, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
         let controller = DFImagePickerController()
         controller.maxImageCount = maxImageCount
-        controller.waitingHandler = waitingHandler
         controller.completionHandler = handler
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.isNavigationBarHidden = true
@@ -285,7 +283,16 @@ extension DFImagePickerController {
             return
         }
         
-        self.waitingHandler?()
+        let progressView = UIView()
+        progressView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        view.addSubview(progressView)
+        progressView.addConstraints(toItem: view, edgeInsets: .zero)
+        
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        progressView.addSubview(indicator)
+        indicator.addConstraints(attributes: [.centerX], toItem: progressView, attributes: nil, constants: [0])
+        indicator.addConstraints(attributes: [.centerY], toItem: progressView, attributes: nil, constants: [0])
+        indicator.startAnimating()
         
         var photos = [YLPhotoModel]()
         var count = 0
@@ -303,8 +310,9 @@ extension DFImagePickerController {
                     photos.append(photoModel)
                 }
                 count += 1
-                if count == models.count {
+                if count >= models.count {
                     DispatchQueue.main.async {
+                        progressView.removeFromSuperview()
                         self.confirmSelection(photos: photos)
                     }
                 }
@@ -617,7 +625,9 @@ extension DFImagePickerController : DFYLPhotoBrowserDelegate {
             }
         }
         
-        return YLPhoto()
+        let photo = YLPhoto()
+        photo.assetModel = assetModel
+        return photo
     }
     
     func photoSelected(at index: Int) {

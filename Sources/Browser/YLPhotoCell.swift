@@ -188,7 +188,12 @@ class YLPhotoCell: UICollectionViewCell {
         imageView.image = nil
         
         if let image = photo.image {
-            imageView.frame = YLPhotoBrowser.getImageViewFrame(image.size)
+            var size = image.size
+            if let asset = photo.assetModel?.asset {
+                size.width = CGFloat(asset.pixelWidth)
+                size.height = CGFloat(asset.pixelHeight)
+            }
+            imageView.frame = YLPhotoBrowser.getImageViewFrame(size)
             imageView.image = image
         }
         
@@ -198,11 +203,9 @@ class YLPhotoCell: UICollectionViewCell {
                 options.resizeMode = PHImageRequestOptionsResizeMode.fast
                 options.isSynchronous = true
                 PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { [weak self] (data:Data?, dataUTI:String?, _, _) in
-                    
                     if let data = data {
                         self?.imageView.image =  UIImage.yl_gifWithData(data)
                     }
-                    
                 })
             }
         }
