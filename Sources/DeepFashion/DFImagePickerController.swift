@@ -302,10 +302,12 @@ extension DFImagePickerController {
             }
             
             let options = PHImageRequestOptions()
-            options.resizeMode = PHImageRequestOptionsResizeMode.fast
+            options.resizeMode = PHImageRequestOptionsResizeMode.none
+            options.deliveryMode = .highQualityFormat
             options.isNetworkAccessAllowed = true
             PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 if let image = result {
+                    print(image)
                     let photoModel = YLPhotoModel.init(image: image,asset: assetModel.asset)
                     photos.append(photoModel)
                 }
