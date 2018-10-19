@@ -211,6 +211,12 @@ class DFYLPhotoBrowser: UIViewController {
         }
         return photo
     }
+    
+    func cache(photo: YLPhoto, at index: Int) {
+        dataArray[index] = photo
+        
+        collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+    }
 }
 
 // MARK: - UICollectionViewDelegate,UICollectionViewDataSource

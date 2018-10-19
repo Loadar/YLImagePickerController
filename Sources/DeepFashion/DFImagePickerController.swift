@@ -58,12 +58,16 @@ public class DFImagePickerController: UIViewController {
     
     var maxImageCount = Int.max
     var completionHandler: (([YLPhotoModel]) -> Void)?
+    var waitingHandler: (() -> Void)?
+    
+    private weak var photoBrowser: DFYLPhotoBrowser?
 
     private var photoBrowserDataSource: YLPhotoBrowserDataSource = YLPhotoBrowserDataSource.all
     
-    public class func controller(maxImageCount: Int, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
+    public class func controller(maxImageCount: Int, waitingHandler: @escaping () -> Void, completion handler: @escaping ([YLPhotoModel]) -> Void) -> UINavigationController {
         let controller = DFImagePickerController()
         controller.maxImageCount = maxImageCount
+        controller.waitingHandler = waitingHandler
         controller.completionHandler = handler
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.isNavigationBarHidden = true
@@ -276,25 +280,36 @@ public class DFImagePickerController: UIViewController {
 extension DFImagePickerController {
     private func selectionFinished() {
         let models: [YLAssetModel] = selectedImageIndexPathes.map { imageList[$0.item] }
+        if models.count == 0 {
+            self.confirmSelection(photos: [])
+            return
+        }
+        
+        self.waitingHandler?()
         
         var photos = [YLPhotoModel]()
+        var count = 0
         for assetModel in models {
             if assetModel.type == .gif || assetModel.type == .video {
                 continue
             }
-                
+            
             let options = PHImageRequestOptions()
             options.resizeMode = PHImageRequestOptionsResizeMode.fast
-            options.isSynchronous = true
+            options.isNetworkAccessAllowed = true
             PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 if let image = result {
                     let photoModel = YLPhotoModel.init(image: image,asset: assetModel.asset)
                     photos.append(photoModel)
                 }
+                count += 1
+                if count == models.count {
+                    DispatchQueue.main.async {
+                        self.confirmSelection(photos: photos)
+                    }
+                }
             })
         }
-        
-        self.confirmSelection(photos: photos)
     }
 }
 
@@ -403,17 +418,10 @@ extension DFImagePickerController {
                 }
                 
                 self?.imageList.append(model)
-                
             })
-            
             
             DispatchQueue.main.async {
                 self?.imageCollectionView.reloadData()
-                //                    self?.navigationItem.title = self?.assetCollection?.localizedTitle
-                //                    self?.collectionView.reloadData()
-                //                    if (self?.photos.count)! > 12 {
-                //                        self?.collectionView.scrollToItem(at: IndexPath.init(row: (self?.photos.count)! - 1, section: 0), at: UICollectionViewScrollPosition.bottom, animated: false)
-                //                    }
             }
         }
     }
@@ -492,6 +500,7 @@ extension DFImagePickerController: UICollectionViewDataSource, UICollectionViewD
             self.fetchPhotoData()
         } else if collectionView === imageCollectionView {
             let photoBrowser = DFYLPhotoBrowser(index: indexPath.item, delegate: self)
+            self.photoBrowser = photoBrowser
             self.navigationController?.pushViewController(photoBrowser, animated: true)
         }
     }
@@ -563,9 +572,7 @@ extension DFImagePickerController : DFYLPhotoBrowserDelegate {
         
         let options = PHImageRequestOptions()
         options.resizeMode = PHImageRequestOptionsResizeMode.fast
-        options.isSynchronous = true
-        
-        var photo: YLPhoto?
+        options.isNetworkAccessAllowed = true
         
         let aspectRatio: CGFloat = CGFloat(assetModel.asset.pixelWidth) / CGFloat(assetModel.asset.pixelHeight)
         var pixelWidth: CGFloat = imageCollectionView.frame.width * 2
@@ -601,12 +608,16 @@ extension DFImagePickerController : DFYLPhotoBrowserDelegate {
                     }
                 }
                 
-                photo = YLPhoto.addImage(image, frame: frame)
-                photo?.assetModel = assetModel
+                let photo = YLPhoto.addImage(image, frame: frame)
+                photo.assetModel = assetModel
+                
+                DispatchQueue.main.async {
+                    self.photoBrowser?.cache(photo: photo, at: index)
+                }
             }
         }
         
-        return photo ?? YLPhoto()
+        return YLPhoto()
     }
     
     func photoSelected(at index: Int) {
