@@ -334,7 +334,7 @@
 				TargetAttributes = {
 					7984836F1F5648E80017965B = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = MHFW5W9L73;
+						DevelopmentTeam = 628CHGGHXP;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -597,7 +597,7 @@
 			baseConfigurationReference = B876B0F637F860AB9BA90F56 /* Pods-YLImagePickerController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MHFW5W9L73;
+				DEVELOPMENT_TEAM = 628CHGGHXP;
 				INFOPLIST_FILE = YLImagePickerController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -612,7 +612,7 @@
 			baseConfigurationReference = B6A809BE524ECA354D3D0C51 /* Pods-YLImagePickerController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MHFW5W9L73;
+				DEVELOPMENT_TEAM = 628CHGGHXP;
 				INFOPLIST_FILE = YLImagePickerController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

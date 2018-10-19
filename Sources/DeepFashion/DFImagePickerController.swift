@@ -324,8 +324,18 @@ extension DFImagePickerController {
             let smartAssetCollections = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.albumRegular, options: nil)
             smartAssetCollections.enumerateObjects({ (assetCollection, _, _) in
                 let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
-                // 过滤空相册
-                if assets.count != 0 {
+                
+                // 不显示视频
+                if assetCollection.assetCollectionSubtype == .smartAlbumVideos || assetCollection.assetCollectionSubtype == .smartAlbumSlomoVideos {
+                    return
+                }
+                // 不显示空相册
+                if assets.count == 0 { return }
+
+                if assetCollection.assetCollectionSubtype == .smartAlbumUserLibrary {
+                    // 所有照片放在首位
+                    self?.albumList.insert(assetCollection, at: 0)
+                } else {
                     self?.albumList.append(assetCollection)
                 }
             })
@@ -343,6 +353,7 @@ extension DFImagePickerController {
             userAssetCollections.enumerateObjects({ (assetCollection, _, _) in
                 let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
                 // 过滤空相册
+                
                 if assets.count != 0 {
                     self?.albumList.append(assetCollection)
                 }
@@ -370,7 +381,10 @@ extension DFImagePickerController {
         updateConfirmButton()
         
         DispatchQueue.global().async { [weak self] in
-            let assets = PHAsset.fetchAssets(in: album, options: nil)
+            // 按时间倒序
+            let option = PHFetchOptions()
+            option.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            let assets = PHAsset.fetchAssets(in: album, options: option)
             assets.enumerateObjects({ (asset, _, _) in
                 let model = YLAssetModel()
                 model.asset = asset
