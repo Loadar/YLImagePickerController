@@ -81,7 +81,7 @@ public class DFImagePickerController: UIViewController {
             DispatchQueue.main.async {
                 if isEnabled {
                     self.noAuthView.isHidden = true
-                    
+                    self.fetchAlbumData()
                 } else {
                     self.noAuthView.isHidden = false
                 }
@@ -89,7 +89,9 @@ public class DFImagePickerController: UIViewController {
         }
         self.noAuthView.isHidden = status
         
-        fetchAlbumData()
+        if status {
+            fetchAlbumData()
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
